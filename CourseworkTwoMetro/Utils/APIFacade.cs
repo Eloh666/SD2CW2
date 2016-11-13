@@ -12,7 +12,6 @@ namespace CourseworkOneMetro.ViewModels.Utils
 {
     public class APIFacade
     {
-        private static APIFacade _instance;
         private static HttpClient _client;
         private static string _jwt;
 
@@ -28,9 +27,9 @@ namespace CourseworkOneMetro.ViewModels.Utils
         }
 
 
-        static async Task GetDataTestAsync(string path)
+        static async Task GetCustomers()
         {
-            HttpResponseMessage response = await _client.GetAsync(path);
+            HttpResponseMessage response = await _client.GetAsync("/customer");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -57,6 +56,7 @@ namespace CourseworkOneMetro.ViewModels.Utils
 
                 JObject jwt = JObject.Parse(await response.Content.ReadAsStringAsync());
                 _jwt = (string)jwt["access_token"];
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwt);
                 Console.WriteLine(_jwt);
                 return true;
             }
