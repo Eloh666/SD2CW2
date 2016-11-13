@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace CourseworkOneMetro.ViewModels.Utils
+namespace CourseworkTwoMetro.Utils.RelayCommands
 {
     /// <summary>
     /// Created by Davide Morello

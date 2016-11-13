@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 
-namespace CourseworkOneMetro.ViewModels.Utils
+namespace CourseworkTwoMetro.Utils.JSONUtils
 {
-    public class LowcaseJSONKeysSerializer
+    public class LowcaseJsonKeysSerializer
     {
         public static string Serialize(object data)
         {
             var settings = new JsonSerializerSettings();
-            settings.ContractResolver = new JSONLowerCaseConcractResolver();
+            settings.ContractResolver = new JsonLowerCaseConcractResolver();
             return JsonConvert.SerializeObject(data, Formatting.Indented, settings);
         }
     }

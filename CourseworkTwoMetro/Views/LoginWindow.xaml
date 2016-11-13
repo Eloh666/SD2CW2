@@ -1,9 +1,13 @@
-﻿<Controls:MetroWindow x:Class="CourseworkTwoMetro.Views.LoginWindow"
+﻿<Controls:MetroWindow 
+                      x:Name="Login"
+                      x:Class="CourseworkTwoMetro.Views.LoginWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils"
+                      xmlns:viewModels="clr-namespace:CourseworkTwoMetro.ViewModels"
+                      xmlns:utils1="clr-namespace:CourseworkTwoMetro.Views.Utils"
                       Title="Login"
                       Height="447"
                       Width="800"
@@ -14,6 +18,9 @@
          x:Key="BoolToHiddenConverter"
          TrueValue="Visible" FalseValue="Hidden" />
     </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.DataContext>
+        <viewModels:LoginViewModel/>
+    </Controls:MetroWindow.DataContext>
 
     <Grid>
         <iconPacks:PackIconModern
@@ -25,30 +32,39 @@
             />
         <TextBox
             x:Name="Username"
+            Controls:TextBoxHelper.Watermark="Enter your username here..."
+            Controls:TextBoxHelper.ClearTextButton="True"
             HorizontalAlignment="Left"
             Height="23"
             Margin="200,227,0,0"
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="500"
+            Text="{Binding Username, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             />
-        <TextBox
+        <PasswordBox
             x:Name="Password"
+            Controls:TextBoxHelper.Watermark="Enter your password here..."
+            Controls:TextBoxHelper.ClearTextButton="True"
             HorizontalAlignment="Left"
             Height="23"
             Margin="200,283,0,0"
-            TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="500"
+            FontFamily="Password Font"
+            utils1:PasswordBoxAssistant.BindPassword="true"
+            utils1:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             />
         <Button
-            x:Name="Button" 
+            x:Name="Button"
             Content="Login"
             HorizontalAlignment="Left" Margin="585,360,0,0"
             VerticalAlignment="Top"
             Width="150"
             Background="OrangeRed"
             Style="{DynamicResource SquareButtonStyle}"
+            Command="{Binding Commands.LoginCommand}"
+            CommandParameter="{Binding}"
             />
         <Label
             x:Name="UsernameLabel"

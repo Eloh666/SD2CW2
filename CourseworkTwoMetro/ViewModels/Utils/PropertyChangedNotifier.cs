@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CourseworkOneMetro.ViewModels.Utils
+namespace CourseworkTwoMetro.ViewModels.Utils
 {
     /// <summary>
     /// Created by Davide Morello

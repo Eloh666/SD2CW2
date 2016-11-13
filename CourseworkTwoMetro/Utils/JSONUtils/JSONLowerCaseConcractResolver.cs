@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Serialization;
 
-namespace CourseworkOneMetro.ViewModels.Utils
+namespace CourseworkTwoMetro.Utils.JSONUtils
 {
-    public class JSONLowerCaseConcractResolver : DefaultContractResolver
+    public class JsonLowerCaseConcractResolver : DefaultContractResolver
     {
         protected override string ResolvePropertyName(string propertyName)
         {

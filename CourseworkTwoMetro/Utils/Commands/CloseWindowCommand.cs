@@ -1,10 +1,10 @@
 ﻿using System.Windows;
-using CourseworkOneMetro.ViewModels.Utils;
+using CourseworkTwoMetro.Utils.RelayCommands;
 
 // Created by Davide Morello
 // Last Modified October 
 // simple class relay command implementation of a close window event handler
-namespace CourseworkOneMetro.ViewModels.Commands
+namespace CourseworkTwoMetro.Utils.Commands
 {
     public class CloseWindowCommand
     {

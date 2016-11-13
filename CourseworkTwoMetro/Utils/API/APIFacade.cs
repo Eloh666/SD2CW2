@@ -4,19 +4,17 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using CourseworkTwoMetro.Models;
-using Newtonsoft.Json;
+using CourseworkTwoMetro.Utils.JSONUtils;
 using Newtonsoft.Json.Linq;
 
-
-namespace CourseworkOneMetro.ViewModels.Utils
+namespace CourseworkTwoMetro.Utils.API
 {
-    public class APIFacade
+    public class ApiFacade
     {
         private static HttpClient _client;
         private static string _jwt;
 
-
-        public static async Task InitialiseAPI()
+        public static async Task InitialiseApi()
         {
             if (_client == null)
             {
@@ -37,16 +35,9 @@ namespace CourseworkOneMetro.ViewModels.Utils
             }
         }
 
-        public static async Task<bool> Login(User user2)
+        public static async Task<bool> Login(User user)
         {
-
-            var user = new User
-            {
-                Username = "Eloh666",
-                Password = "holidayVillage"
-            };
-
-            var json = LowcaseJSONKeysSerializer.Serialize(user);
+            var json = LowcaseJsonKeysSerializer.Serialize(user);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try
