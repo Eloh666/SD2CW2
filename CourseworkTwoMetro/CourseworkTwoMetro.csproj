@@ -104,6 +104,8 @@
     </ApplicationDefinition>
     <Compile Include="Models\User.cs" />
     <Compile Include="Utils\APIFacade.cs" />
+    <Compile Include="Utils\JSONLowerCaseConcractResolver.cs" />
+    <Compile Include="Utils\LowcaseJSONKeysSerializer.cs" />
     <Compile Include="ViewModels\Commands\CloseWindowCommand.cs" />
     <Compile Include="ViewModels\Utils\BooleanToVisibilityConv.cs" />
     <Compile Include="ViewModels\Utils\LightRelayCommand.cs" />

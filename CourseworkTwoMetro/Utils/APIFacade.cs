@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-
+using System.Text;
 using System.Threading.Tasks;
 using CourseworkTwoMetro.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace CourseworkOneMetro.ViewModels.Utils
@@ -13,14 +14,17 @@ namespace CourseworkOneMetro.ViewModels.Utils
     {
         private static APIFacade _instance;
         private static HttpClient _client;
+        private static string _jwt;
 
-        private APIFacade() { }
 
-        static async Task InitAPI()
+        public static async Task InitialiseAPI()
         {
-            _client.BaseAddress = new Uri("http://127.0.0.1:5000/");
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (_client == null)
+            {
+                _client = new HttpClient {BaseAddress = new Uri("http://127.0.0.1:5000/")};
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
         }
 
 
@@ -34,37 +38,33 @@ namespace CourseworkOneMetro.ViewModels.Utils
             }
         }
 
-        static async Task Login()
+        public static async Task<bool> Login(User user2)
         {
 
-            var tempUser = new User();
-            tempUser.Username = "";
-            tempUser.Password = "";
-
-            var json = JsonConvert.SerializeObject(tempUser);
-            
-            HttpResponseMessage response = await _client.PutAsJsonAsync("/auth", json);
-            response.EnsureSuccessStatusCode();
-
-            // Deserialize the updated product from the response body.
-            var JWT = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(JWT);
-        }
-
-
-        public static APIFacade Instance
-        {
-            get
+            var user = new User
             {
-                if (_instance == null)
-                {
-                    _instance = new APIFacade();
-                }
-                return _instance;
+                Username = "Eloh666",
+                Password = "holidayVillage"
+            };
+
+            var json = LowcaseJSONKeysSerializer.Serialize(user);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            try
+            {
+                var response = await _client.PostAsync("/auth", content);
+                response.EnsureSuccessStatusCode();
+
+                JObject jwt = JObject.Parse(await response.Content.ReadAsStringAsync());
+                _jwt = (string)jwt["access_token"];
+                Console.WriteLine(_jwt);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
-
-
 
     }
 }
