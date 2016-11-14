@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using CourseworkOneMetro.ViewModels.Utils;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Utils.API;
@@ -12,17 +10,18 @@ namespace CourseworkTwoMetro.ViewModels
     public class LoginViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        public bool _loading;
+        public bool _loginFailed;
         public User User { get; }
-        public CommandsManager Commands { get; }
-
         public LoginViewModel()
         {
+            this._loading = false;
+            this._loginFailed = false;
             ApiFacade.InitialiseApi();
             User = new User();
             _fieldsUseDictionary = new Dictionary<string, bool>();
             this._fieldsUseDictionary.Add("Username", false);
             this._fieldsUseDictionary.Add("Password", false);
-            this.Commands = new CommandsManager();
         }
 
         public string Username
@@ -44,6 +43,27 @@ namespace CourseworkTwoMetro.ViewModels
                 User.Password = value;
                 this._fieldsUseDictionary["Password"] = true;
                 OnPropertyChangedEvent("Password");
+            }
+        }
+
+        public bool NotLoading => !this._loading;
+        public bool Loading
+        {
+            get { return this._loading; }
+            set
+            {
+                this._loading = value;
+                OnPropertyChangedEvent("Loading");
+            }
+        }
+
+        public bool LoginFailed
+        {
+            get { return this._loginFailed; }
+            set
+            {
+                this._loginFailed = value;
+                OnPropertyChangedEvent("LoginFailed");
             }
         }
 

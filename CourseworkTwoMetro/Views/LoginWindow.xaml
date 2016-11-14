@@ -19,16 +19,24 @@
          TrueValue="Visible" FalseValue="Hidden" />
     </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.DataContext>
-        <viewModels:LoginViewModel/>
+        <viewModels:MainViewModel/>
     </Controls:MetroWindow.DataContext>
 
     <Grid>
+        <Controls:ProgressRing
+            Foreground="{DynamicResource AccentColorBrush}"
+            Width="150"
+            Height="150"
+            Margin="330,195,314,73"
+            Visibility="{Binding LoginViewModel.Loading, Converter={StaticResource BoolToHiddenConverter}}"
+            />
         <iconPacks:PackIconModern
             Kind="DoorEnter" VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Height="119"
             Width="145"
             Foreground="OrangeRed" Margin="30,206,617,91"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <TextBox
             x:Name="Username"
@@ -40,7 +48,8 @@
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="500"
-            Text="{Binding Username, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding LoginViewModel.Username, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <PasswordBox
             x:Name="Password"
@@ -53,7 +62,8 @@
             Width="500"
             FontFamily="Password Font"
             utils1:PasswordBoxAssistant.BindPassword="true"
-            utils1:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            utils1:PasswordBoxAssistant.BoundPassword="{Binding LoginViewModel.Password, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <Button
             x:Name="Button"
@@ -64,7 +74,8 @@
             Background="OrangeRed"
             Style="{DynamicResource SquareButtonStyle}"
             Command="{Binding Commands.LoginCommand}"
-            CommandParameter="{Binding}"
+            CommandParameter="{Binding ElementName=Login}"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <Label
             x:Name="UsernameLabel"
@@ -74,6 +85,7 @@
             VerticalAlignment="Top"
             Width="250"
             FontSize="10"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <Label
             x:Name="PasswordLabel"
@@ -83,6 +95,7 @@
             VerticalAlignment="Top"
             Width="250"
             FontSize="10"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <Image
             x:Name="logoImage"
@@ -102,6 +115,17 @@
         	FontSize="36"
         	Foreground="OrangeRed"
         	FontStyle="Italic" Width="314"
+            />
+        <Label
+            x:Name="InvalidLabel"
+            Content="Username - Password combination is invalid"
+            HorizontalAlignment="Left"
+            Margin="200,320,0,0"
+            VerticalAlignment="Top"
+            Width="320"
+            FontSize="11"
+            Foreground="Red"
+            Visibility="{Binding LoginViewModel.LoginFailed, Converter={StaticResource BoolToHiddenConverter}}"
             />
     </Grid>
 </Controls:MetroWindow>

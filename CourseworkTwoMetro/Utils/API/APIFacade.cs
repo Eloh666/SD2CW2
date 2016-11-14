@@ -14,14 +14,11 @@ namespace CourseworkTwoMetro.Utils.API
         private static HttpClient _client;
         private static string _jwt;
 
-        public static async Task InitialiseApi()
+        public static void InitialiseApi()
         {
-            if (_client == null)
-            {
                 _client = new HttpClient {BaseAddress = new Uri("http://127.0.0.1:5000/")};
                 _client.DefaultRequestHeaders.Accept.Clear();
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
         }
 
 
