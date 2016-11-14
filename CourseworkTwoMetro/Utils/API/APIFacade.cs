@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Utils.JSONUtils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CourseworkTwoMetro.Utils.API
@@ -21,14 +23,31 @@ namespace CourseworkTwoMetro.Utils.API
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task GetData(string path)
+        public static async Task<String> GetData(string path)
         {
             HttpResponseMessage response = await _client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseBody);
+                return await response.Content.ReadAsStringAsync();
             }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public static async Task<List<Customer>> GetCustomers()
+        {
+            var json = await GetData("/customer");
+            return JsonConvert.DeserializeObject<List<Customer>>(json);
+        }
+
+        public static async Task<List<Booking>> GetBookings()
+        {
+            var json = await GetData("/booking");
+            Console.WriteLine(json);
+            return JsonConvert.DeserializeObject<List<Booking>>(json);
         }
 
         public static async Task<bool> Login(User user)

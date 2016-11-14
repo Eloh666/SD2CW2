@@ -7,13 +7,19 @@ namespace CourseworkTwoMetro.Managers
 {
     public class WindowsManager
     {
+        private static WindowsManager _instance;
         private readonly MainViewModel _mainViewModel;
         public LightRelayCommand NewCustomerCommand { get; private set; }
 
-        public WindowsManager(MainViewModel mainViewModel)
+        private WindowsManager(MainViewModel mainViewModel)
         {
             this._mainViewModel = mainViewModel;
             this.NewCustomerCommand = new LightRelayCommand(this.NewCustomer);
+        }
+
+        public static WindowsManager Instance(MainViewModel mainWinReference)
+        {
+            return _instance ?? (_instance = new WindowsManager(mainWinReference));
         }
 
         public void CreateMainWindow()

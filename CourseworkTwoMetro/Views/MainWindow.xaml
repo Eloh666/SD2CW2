@@ -62,12 +62,12 @@
 
             <TabItem Header="Bookings" Margin="907,10,-907,-10">
                 <Grid Margin="0,0,0,-1">
-                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source=Lecturers}" Margin="0,10,0,90" >
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source=MainWindowViewModel.Bookings}" Margin="0,10,0,90" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Reference Number" Width="299"/>
-                            <DataGridTextColumn Header="Customer Name" Width="299"/>
-                            <DataGridTextColumn Header="Arrival Date"  Width="299"/>
-                            <DataGridTextColumn Header="Departure Date"  Width="299"/>
+                            <DataGridTextColumn Header="Reference Number" Width="299" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Customer Name" Width="299" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Arrival Date"  Width="299" Binding="{Binding ArrivalDate}"/>
+                            <DataGridTextColumn Header="Departure Date"  Width="299" Binding="{Binding DepartureDate}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button
@@ -98,11 +98,11 @@
 
             <TabItem Header="Customers" Margin="933,10,-933,-10">
                 <Grid Margin="0,0,0,-1">
-                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source=Lecturers}" Margin="0,10,0,90" Grid.ColumnSpan="2" >
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source=MainWindowViewModel.Customers}" Margin="0,10,0,90" Grid.ColumnSpan="2" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Reference Number" Width="399"/>
-                            <DataGridTextColumn Header="Customer Name" Width="399"/>
-                            <DataGridTextColumn Header="Address" Width="399"/>
+                            <DataGridTextColumn Header="Reference Number" Width="399" Binding="{Binding ReferenceNumber}"/>
+                            <DataGridTextColumn Header="Customer Name" Width="399" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Address" Width="399" Binding="{Binding Address}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button

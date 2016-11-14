@@ -10,13 +10,16 @@ namespace CourseworkTwoMetro.ViewModels
         public WindowsManager Windows { get; }
         // The view model for the login window
         public LoginViewModel LoginViewModel { get; }
-        // The view model for the main window
+        // The view model for the main window, gets created when the login is successful
         public MainWindowViewModel MainWindowViewModel { get; set; }
 
         public MainViewModel()
-        {
-            this.Commands = new CommandsManager(this);
-            this.Windows = new WindowsManager(this);
+        {   
+            // initialises the commands singleton
+            this.Commands = CommandsManager.Instance(this);
+            // initialises the windows manager singleton
+            this.Windows = WindowsManager.Instance(this);
+            // holds the reference to the login view model
             this.LoginViewModel = new LoginViewModel();
         }
 
