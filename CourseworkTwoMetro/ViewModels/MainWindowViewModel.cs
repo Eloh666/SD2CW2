@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Utils.API;
@@ -9,8 +10,8 @@ namespace CourseworkTwoMetro.ViewModels
 {
     public class MainWindowViewModel : FormWithSpinnerViewModel
     {
-        public List<Customer> Customers { get; set; }
-        public List<Booking> Bookings { get; set; }
+        private ObservableCollection<Customer> _customers;
+        private ObservableCollection<Booking> _bookings;
 
         public MainWindowViewModel()
         {
@@ -23,26 +24,41 @@ namespace CourseworkTwoMetro.ViewModels
             try
             {
                 this.Customers = await ApiFacade.GetCustomers();
-                foreach (Customer i in Customers)
-                {
-                    Console.WriteLine(i.ReferenceNumber);
-                    Console.WriteLine(i.Name);
-                    Console.WriteLine(i.Address);
-                }
                 this.Bookings = await ApiFacade.GetBookings();
-                foreach (Booking i in Bookings)
-                {
-                    Console.WriteLine(i.Id);
-                    Console.WriteLine(i.ArrivalDate);
-                    Console.WriteLine(i.DepartureDate);
-                }
                 this.LoadingFailed = false;
             }
             catch
             {
                 this.LoadingFailed = true;
             }
-            this.Loading = true;
+            finally
+            {
+                this.Loading = false;
+                OnPropertyChangedEvent(null);
+            }
+        }
+
+        public ObservableCollection<Customer> Customers
+        {
+            get { return _customers; }
+            set
+            {
+                _customers = value;
+                OnPropertyChangedEvent("Customers");
+            }
+        }
+
+        public ObservableCollection<Booking> Bookings
+        {
+            get
+            {
+                return _bookings;
+            }
+            set
+            {
+                _bookings = value;
+                OnPropertyChangedEvent("Bookings");
+            }
         }
     }
 }

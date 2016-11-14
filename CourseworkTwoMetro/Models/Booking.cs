@@ -11,16 +11,16 @@ namespace CourseworkTwoMetro.Models
         public DateTime ArrivalDate { get; set; }
         public DateTime DepartureDate { get; set; }
 
-        public Customer Customer { get; set; }
+        public string CustomerId { get; set; }
         public List<Guest> Guests { get; set; }
         public List<Extra> Extras { get; set; }
 
-        public Booking(string id, DateTime arrivalDate, DateTime departureDate, Customer currentCustomer)
+        public Booking(string id, DateTime arrivalDate, DateTime departureDate, string customerId)
         {
             this.Id = id;
             this.ArrivalDate = arrivalDate;
             this.DepartureDate = departureDate;
-            this.Customer = currentCustomer;
+            this.CustomerId = customerId;
         }
 
     }

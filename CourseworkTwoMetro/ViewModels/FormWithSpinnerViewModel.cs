@@ -5,7 +5,7 @@ namespace CourseworkTwoMetro.ViewModels
     public abstract class FormWithSpinnerViewModel : PropertyChangedNotifier
     {
         private bool _loading;
-        public bool _loadingFailed { get; set; }
+        private bool _loadingFailed;
 
         protected FormWithSpinnerViewModel()
         {

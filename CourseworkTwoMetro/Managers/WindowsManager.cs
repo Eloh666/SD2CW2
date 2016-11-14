@@ -32,7 +32,7 @@ namespace CourseworkTwoMetro.Managers
 
         public void NewCustomer()
         {
-            CustomerEdit customerEditWindow = new CustomerEdit {DataContext = new EditCustomerViewModel(null)};
+            CustomerEdit customerEditWindow = new CustomerEdit {DataContext = new EditCustomerViewModel("Add new customer", null)};
             customerEditWindow.ShowDialog();
         }
     }

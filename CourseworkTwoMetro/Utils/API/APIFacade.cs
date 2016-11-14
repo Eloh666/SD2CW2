@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -37,17 +38,16 @@ namespace CourseworkTwoMetro.Utils.API
         }
 
 
-        public static async Task<List<Customer>> GetCustomers()
+        public static async Task<ObservableCollection<Customer>> GetCustomers()
         {
             var json = await GetData("/customer");
-            return JsonConvert.DeserializeObject<List<Customer>>(json);
+            return JsonConvert.DeserializeObject<ObservableCollection<Customer>>(json);
         }
 
-        public static async Task<List<Booking>> GetBookings()
+        public static async Task<ObservableCollection<Booking>> GetBookings()
         {
             var json = await GetData("/booking");
-            Console.WriteLine(json);
-            return JsonConvert.DeserializeObject<List<Booking>>(json);
+            return JsonConvert.DeserializeObject<ObservableCollection<Booking>>(json);
         }
 
         public static async Task<bool> Login(User user)

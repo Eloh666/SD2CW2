@@ -5,7 +5,7 @@
                       xmlns:Utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils" xmlns:Utils1="clr-namespace:CourseworkTwoMetro.Views.Utils"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     x:Class="CourseworkTwoMetro.Views.GuestEdit"
-                      Title=""
+                      Title="{Binding Title}"
                       Height="392"
                       Width="350">
     <Controls:MetroWindow.Resources>
@@ -16,7 +16,7 @@
     <Grid Margin="0,0,0,-21">
         <Label
 			x:Name="TitleLabel"
-			Content="ADD NEW GUEST"
+			Content="{Binding Title}"
 			HorizontalAlignment="Left"
 			Margin="75,34,0,0"
 			VerticalAlignment="Top"
