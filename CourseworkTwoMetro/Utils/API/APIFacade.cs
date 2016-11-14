@@ -21,10 +21,9 @@ namespace CourseworkTwoMetro.Utils.API
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-
-        static async Task GetCustomers()
+        public static async Task GetData(string path)
         {
-            HttpResponseMessage response = await _client.GetAsync("/customer");
+            HttpResponseMessage response = await _client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -35,7 +34,6 @@ namespace CourseworkTwoMetro.Utils.API
         public static async Task<bool> Login(User user)
         {
             var json = LowcaseJsonKeysSerializer.Serialize(user);
-
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try
             {

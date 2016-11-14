@@ -7,21 +7,27 @@ namespace CourseworkTwoMetro.Managers
 {
     public class WindowsManager
     {
-        private MainViewModel _mainViewModel;
-        public object CreateMainWindowCommand { get; }
+        private readonly MainViewModel _mainViewModel;
+        public LightRelayCommand NewCustomerCommand { get; private set; }
 
         public WindowsManager(MainViewModel mainViewModel)
         {
             this._mainViewModel = mainViewModel;
-            CreateMainWindowCommand = new LightRelayCommand(CreateMainWindow);
+            this.NewCustomerCommand = new LightRelayCommand(this.NewCustomer);
         }
 
         public void CreateMainWindow()
         {
-
-            MainWindow mainWindow = new MainWindow {DataContext = new MainWindowViewModel()};
+            this._mainViewModel.MainWindowViewModel = new MainWindowViewModel();
+            MainWindow mainWindow = new MainWindow {DataContext = this._mainViewModel};
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
+        }
+
+        public void NewCustomer()
+        {
+            CustomerEdit customerEditWindow = new CustomerEdit {DataContext = new EditCustomerViewModel(null)};
+            customerEditWindow.ShowDialog();
         }
     }
 }

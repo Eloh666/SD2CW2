@@ -104,11 +104,22 @@
     </ApplicationDefinition>
     <Compile Include="Managers\CommandsManager.cs" />
     <Compile Include="Managers\WindowsManager.cs" />
+    <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\Extras\CarHire.cs" />
+    <Compile Include="Models\Extras\Dinner.cs" />
+    <Compile Include="Models\Extras\Breakfast.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Extras\Extra.cs" />
+    <Compile Include="Models\Extras\Meal.cs" />
+    <Compile Include="Models\Guest.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Utils\API\APIFacade.cs" />
     <Compile Include="Utils\JSONUtils\JSONLowerCaseConcractResolver.cs" />
     <Compile Include="Utils\JSONUtils\LowcaseJSONKeysSerializer.cs" />
-    <Compile Include="Utils\Commands\CloseWindowCommand.cs" />
+    <Compile Include="ViewModels\EditCustomerViewModel.cs" />
+    <Compile Include="ViewModels\EditGuestViewModel.cs" />
+    <Compile Include="ViewModels\FormWithSpinnerViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Utils\BooleanToVisibilityConv.cs" />
@@ -116,6 +127,12 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Utils\PropertyChangedNotifier.cs" />
     <Compile Include="Utils\RelayCommands\RelayCommand.cs" />
+    <Compile Include="Views\CustomerEdit.xaml.cs">
+      <DependentUpon>CustomerEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuestEdit.xaml.cs">
+      <DependentUpon>GuestEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Utils\PasswordBoxAssistant.cs" />
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +141,14 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CustomerEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuestEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
@@ -186,6 +211,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\bgStuff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

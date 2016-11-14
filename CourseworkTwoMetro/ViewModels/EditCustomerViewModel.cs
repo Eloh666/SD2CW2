@@ -1,54 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using CourseworkTwoMetro.Models;
-using CourseworkTwoMetro.Utils.API;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class LoginViewModel : FormWithSpinnerViewModel, IDataErrorInfo
+    public class EditCustomerViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
-        private bool _loginFailed;
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
-        public User User { get; }
-        public LoginViewModel()
+        public Customer Customer { get; }
+        public EditCustomerViewModel(Customer customer = null)
         {
-            ApiFacade.InitialiseApi();
-            this._loginFailed = false;
-            User = new User();
+            this.Customer = customer ?? new Customer();
             _fieldsUseDictionary = new Dictionary<string, bool>();
-            this._fieldsUseDictionary.Add("Username", false);
-            this._fieldsUseDictionary.Add("Password", false);
+            this._fieldsUseDictionary.Add("Name", false);
+            this._fieldsUseDictionary.Add("ReferenceNumber", false);
+            this._fieldsUseDictionary.Add("Address", false);
         }
 
-        public string Username
+        public string Name
         {
-            get { return User.Username; }
+            get { return Customer.Name; }
             set
             {
-                User.Username = value;
-                this._fieldsUseDictionary["Username"] = true;
-                OnPropertyChangedEvent("Username");
+                Customer.Name = value;
+                this._fieldsUseDictionary["Name"] = true;
+                OnPropertyChangedEvent("Name");
             }
         }
 
-        public string Password
+        public string ReferenceNumber
         {
-            get { return User.Password; }
+            get { return Customer.ReferenceNumber; }
             set
             {
-                User.Password = value;
-                this._fieldsUseDictionary["Password"] = true;
-                OnPropertyChangedEvent("Password");
+                Customer.ReferenceNumber = value;
+                this._fieldsUseDictionary["ReferenceNumber"] = true;
+                OnPropertyChangedEvent("ReferenceNumber");
             }
         }
 
-        public bool LoginFailed
+        public string Address
         {
-            get { return this._loginFailed; }
+            get { return Customer.Address; }
             set
             {
-                this._loginFailed = value;
-                OnPropertyChangedEvent("LoginFailed");
+                Customer.Address = value;
+                this._fieldsUseDictionary["Address"] = true;
+                OnPropertyChangedEvent("Address");
             }
         }
 
@@ -58,8 +56,9 @@ namespace CourseworkTwoMetro.ViewModels
         // fields that require validation
         private static readonly string[] ValidationFields =
         {
-            "Username",
-            "Password",
+            "Name",
+            "ReferenceNumber",
+            "Address"
         };
 
         // check the whole attendee for being valid, the dictionary is used
@@ -69,8 +68,9 @@ namespace CourseworkTwoMetro.ViewModels
         {
             get
             {
-                this._fieldsUseDictionary["Username"] = true;
+                this._fieldsUseDictionary["Name"] = true;
                 this._fieldsUseDictionary["Password"] = true;
+                this._fieldsUseDictionary["Address"] = true;
 
 
                 foreach (string field in ValidationFields)
@@ -94,15 +94,18 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 switch (fieldName)
                 {
-                    case "Username":
-                        error = this.User.ValidateUsername();
+                    case "Name":
+                        error = this.Customer.ValidateName();
                         break;
-                    case "Password":
-                        error = this.User.ValidatePassword();
+                    case "ReferenceNumber":
+                        error = this.Customer.ValidateReferenceNumber();
+                        break;
+                    case "Address":
+                        error = this.Customer.ValidateAddress();
                         break;
                 }
             }
             return error;
         }
-    }  
+    }
 }

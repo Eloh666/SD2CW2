@@ -73,9 +73,9 @@
             Width="150"
             Background="OrangeRed"
             Style="{DynamicResource SquareButtonStyle}"
+            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Command="{Binding Commands.LoginCommand}"
             CommandParameter="{Binding ElementName=Login}"
-            Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             />
         <Label
             x:Name="UsernameLabel"

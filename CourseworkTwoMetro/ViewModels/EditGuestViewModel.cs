@@ -1,54 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using CourseworkTwoMetro.Models;
-using CourseworkTwoMetro.Utils.API;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class LoginViewModel : FormWithSpinnerViewModel, IDataErrorInfo
+    public class EditGuestViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
-        private bool _loginFailed;
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
-        public User User { get; }
-        public LoginViewModel()
+        public Guest Guest { get; }
+        public EditGuestViewModel(Guest guest = null)
         {
-            ApiFacade.InitialiseApi();
-            this._loginFailed = false;
-            User = new User();
+            this.Guest = guest ?? new Guest();
             _fieldsUseDictionary = new Dictionary<string, bool>();
-            this._fieldsUseDictionary.Add("Username", false);
-            this._fieldsUseDictionary.Add("Password", false);
+            this._fieldsUseDictionary.Add("Name", false);
+            this._fieldsUseDictionary.Add("Age", false);
+            this._fieldsUseDictionary.Add("PassportNumber", false);
         }
 
-        public string Username
+        public string Name
         {
-            get { return User.Username; }
+            get { return Guest.Name; }
             set
             {
-                User.Username = value;
-                this._fieldsUseDictionary["Username"] = true;
-                OnPropertyChangedEvent("Username");
+                Guest.Name = value;
+                this._fieldsUseDictionary["Name"] = true;
+                OnPropertyChangedEvent("Name");
             }
         }
 
-        public string Password
+        public uint Age
         {
-            get { return User.Password; }
+            get { return Guest.Age; }
             set
             {
-                User.Password = value;
-                this._fieldsUseDictionary["Password"] = true;
-                OnPropertyChangedEvent("Password");
+                Guest.Age = value;
+                this._fieldsUseDictionary["Age"] = true;
+                OnPropertyChangedEvent("Age");
             }
         }
 
-        public bool LoginFailed
+        public string PassportNumber
         {
-            get { return this._loginFailed; }
+            get { return Guest.PassportNumber; }
             set
             {
-                this._loginFailed = value;
-                OnPropertyChangedEvent("LoginFailed");
+                Guest.PassportNumber = value;
+                this._fieldsUseDictionary["PassportNumber"] = true;
+                OnPropertyChangedEvent("PassportNumber");
             }
         }
 
@@ -58,8 +56,9 @@ namespace CourseworkTwoMetro.ViewModels
         // fields that require validation
         private static readonly string[] ValidationFields =
         {
-            "Username",
-            "Password",
+            "Name",
+            "Age",
+            "PassportNumber"
         };
 
         // check the whole attendee for being valid, the dictionary is used
@@ -69,8 +68,9 @@ namespace CourseworkTwoMetro.ViewModels
         {
             get
             {
-                this._fieldsUseDictionary["Username"] = true;
+                this._fieldsUseDictionary["Name"] = true;
                 this._fieldsUseDictionary["Password"] = true;
+                this._fieldsUseDictionary["PassportNumber"] = true;
 
 
                 foreach (string field in ValidationFields)
@@ -94,15 +94,18 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 switch (fieldName)
                 {
-                    case "Username":
-                        error = this.User.ValidateUsername();
+                    case "Name":
+                        error = this.Guest.ValidateName();
                         break;
-                    case "Password":
-                        error = this.User.ValidatePassword();
+                    case "Age":
+                        error = this.Guest.ValidateAge();
+                        break;
+                    case "PassportNumber":
+                        error = this.Guest.ValidatePassportNumber();
                         break;
                 }
             }
             return error;
         }
-    }  
+    }
 }
