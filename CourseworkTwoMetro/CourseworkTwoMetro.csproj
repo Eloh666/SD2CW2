@@ -127,6 +127,9 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Utils\PropertyChangedNotifier.cs" />
     <Compile Include="Utils\RelayCommands\RelayCommand.cs" />
+    <Compile Include="Views\BookingEdit.xaml.cs">
+      <DependentUpon>BookingEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CustomerEdit.xaml.cs">
       <DependentUpon>CustomerEdit.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BookingEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CustomerEdit.xaml">
       <SubType>Designer</SubType>
@@ -214,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\wizBg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
