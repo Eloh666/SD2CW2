@@ -19,7 +19,7 @@ namespace CourseworkTwoMetro.Utils.API
 
         public static void InitialiseApi()
         {
-                _client = new HttpClient {BaseAddress = new Uri("http://127.0.0.1:5000/")};
+                _client = new HttpClient {BaseAddress = new Uri("https://coursework2api.herokuapp.com/") };
                 _client.DefaultRequestHeaders.Accept.Clear();
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

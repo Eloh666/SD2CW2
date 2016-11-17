@@ -15,13 +15,15 @@
 			x:Key="BoolToHiddenConverter"
 			TrueValue="Visible" FalseValue="Hidden" />
     </Controls:MetroWindow.Resources>
-
+        
     <xctk:Wizard FinishButtonClosesWindow="True">
         <xctk:WizardPage
-			x:Name="IntroPage" 
+			x:Name="IntroPage"
+            PageType="Exterior"
 			Title="Welcome to Napier Holiday Villlage"
 			Description="This wizard will walk you through the booking system."
-            CanSelectNextPage="True">
+            CanSelectNextPage="True"
+            >
             <Grid>
                 <Controls:MetroProgressBar
                     Minimum="0"
@@ -31,7 +33,7 @@
                     Foreground="OrangeRed"
                     />
                 <DataGrid
-					x:Name="CustomersTable" 
+					x:Name="CustomersTable"
 					BorderThickness="2"
 					IsEnabled="True"
 					AutoGenerateColumns="False"
@@ -45,29 +47,6 @@
                         <DataGridTextColumn Header="Address" Width="200" Binding="{Binding Address}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button
-					x:Name="NewBooking"
-					HorizontalAlignment="Left"
-					Margin="867,646,0,0"
-					VerticalAlignment="Top"
-					Width="295"
-					Height="42"
-					Background="DodgerBlue"
-					FontSize="20" Grid.ColumnSpan="2"
-                        >
-                    <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern
-							Kind="Add" VerticalAlignment="Center"
-							HorizontalAlignment="Center"
-							Foreground="White"
-							Width="20"
-							Height="20"
-                            />
-                        <TextBlock 
-							Foreground="White"
-							Text="  Add Booking"/>
-                    </StackPanel>
-                </Button>
 
                 <TextBox
 					x:Name="Username"
@@ -163,7 +142,7 @@
                     Width="547"
                     />
                 <Image
-                    x:Name="SideImage"
+                    x:Name="SideImageP1"
                     HorizontalAlignment="Left"
                     Height="530"
                     Source="../Resources/Images/wizBg.png"
@@ -172,18 +151,194 @@
                     VerticalAlignment="Top"
                     Width="160"
                     />
-
             </Grid>
         </xctk:WizardPage>
         <xctk:WizardPage 
-			x:Name="Page1" PageType="Interior"
+			x:Name="Page1"
+            PageType="Exterior"
 			Title="Page 1"
 			Description="This is the first page in the process.">
-            <Grid/>
+            <Grid>
+                <Button
+                        x:Name="newGuest"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="135"
+                        Height="26"
+                        Background="DodgerBlue"
+                        FontSize="12"
+                        Margin="920,96,0,0"
+                        >
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern
+                                Kind="Add"
+                            VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Foreground="White"
+                                Width="12"
+                                Height="1112"
+                            />
+                        <TextBlock 
+                            	Foreground="White"
+                            	Text="  Add Guest"/>
+                    </StackPanel>
+                </Button>
+                <DataGrid
+					x:Name="GuestsTable"
+					BorderThickness="1"
+					IsEnabled="True"
+					AutoGenerateColumns="False"
+                    BorderBrush="DodgerBlue"
+					ItemsSource="{Binding MainWindowViewModel.Bookings}"
+					Width="450" Margin="605,127,24,109"
+                >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Customer Name" Width="149" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Age" Width="100" Binding="{Binding Age}"/>
+                        <DataGridTextColumn Header="Passport Number" Width="200" Binding="{Binding Passport}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <xctk:DateTimePicker
+                    x:Name="VacationTimeStartPicker" 
+                    Width="150"
+                    Height="20"
+                    AutoCloseCalendar="True"
+                    MouseWheelActiveTrigger="FocusedMouseOver"
+                    UpdateValueOnEnterKey="True"
+                    Margin="29,85,900,331"
+                    />
+                <xctk:DateTimePicker
+                    x:Name="VacationTimeEndPicker" 
+                    Width="150"
+                    Height="20"
+                    AutoCloseCalendar="True"
+                    MouseWheelActiveTrigger="FocusedMouseOver"
+                    UpdateValueOnEnterKey="True"
+                    Margin="204,205,725,211"
+                    />
+                <Controls:ToggleSwitch x:Name="ExtraCarSwitch"
+                  Content="Car Hire"
+                  HorizontalAlignment="Left"
+                  Margin="29,145,0,0"
+                  Width="140"
+                  VerticalAlignment="Top"
+                  />
+                <xctk:DateTimePicker
+                    x:Name="HireTimeStartPicker" 
+                    Width="150"
+                    Height="20"
+                    AutoCloseCalendar="True"
+                    MouseWheelActiveTrigger="FocusedMouseOver"
+                    UpdateValueOnEnterKey="True"
+                    Margin="29,205,900,211"
+                    />
+                <xctk:DateTimePicker
+                    x:Name="HireTimeEndPicker" 
+                    Width="150"
+                    Height="20"
+                    AutoCloseCalendar="True"
+                    MouseWheelActiveTrigger="FocusedMouseOver"
+                    UpdateValueOnEnterKey="True"
+                    Margin="214,85,715,331"
+                    />
+                <Controls:ToggleSwitch x:Name="ExtraBreakFast"
+                  Content="Breakfast"
+                  HorizontalAlignment="Left"
+                  Margin="29,266,0,0"
+                  Width="140"
+                  VerticalAlignment="Top"
+                  />
+                <Controls:ToggleSwitch x:Name="ExtraDinner"
+                  Content="Dinner"
+                  HorizontalAlignment="Left"
+                  Margin="214,266,0,0"
+                  Width="140"
+                  VerticalAlignment="Top"
+                  />
+                <TextBox
+                    x:Name="DietaryRequirements"
+                    HorizontalAlignment="Left"
+                    Height="66"
+                    Margin="29,339,0,0"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"
+                    Width="325"
+                    Controls:TextBoxHelper.Watermark="Enter the conference name here...."
+                    Controls:TextBoxHelper.ClearTextButton="True"
+                    />
+                <Label 
+                    x:Name="InformationPage2Label"
+                    Content="Please select the all the information necessary for your booking:"
+                    HorizontalAlignment="Left"
+                    FontSize="13"
+                    Margin="27,20,0,0"
+                    VerticalAlignment="Top"/>
+                <Label 
+                    x:Name="VacStartDate"
+                    Content="Vation start date"
+                    HorizontalAlignment="Left"
+                    Margin="27,64,0,0"
+                    VerticalAlignment="Top"/>
+                <Label
+                    x:Name="VacationEndDate"
+                    Content="Vation end date"
+                    HorizontalAlignment="Left"
+                    Margin="211,64,0,0"
+                    VerticalAlignment="Top"/>
+                <Label
+                    x:Name="CarHireStartDate"
+                    Content="Car hire start date"
+                    HorizontalAlignment="Left"
+                    Margin="25,183,0,0"
+                    VerticalAlignment="Top"/>
+                <Label
+                    x:Name="CarHireEndDate"
+                    Content="Car hire end date"
+                    HorizontalAlignment="Left"
+                    Margin="200,183,0,0"
+                    VerticalAlignment="Top"/>
+                <Label x:Name="DietaryReqs"
+                       Content="Dietary requirements"
+                       HorizontalAlignment="Left"
+                       Margin="22,317,0,0"
+                       VerticalAlignment="Top"/>
+                <Image
+                    x:Name="SideImageP2"
+                    HorizontalAlignment="Left"
+                    Height="530"
+                    Source="../Resources/Images/wizBg.png"
+                    Stretch="UniformToFill"
+                    Margin="-175,-80,0,-14"
+                    VerticalAlignment="Bottom"
+                    Width="160"
+                    />
+                <Button
+                	x:Name="DeleteButton"
+                	Content="{iconPacks:PackIconModern Delete}"
+                	Margin="605,332,434,66"
+                	Style="{DynamicResource MetroCircleButtonStyle}"
+                	Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
+                    />
+                <Button
+                	x:Name="EditButton"
+                	Content="{iconPacks:PackIconModern Edit}"
+                	Margin="670,332,369,66"
+                	Style="{DynamicResource MetroCircleButtonStyle}"
+                	Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
+                    />
+                <Controls:MetroProgressBar
+                    Minimum="0"
+                    Maximum="100"
+                    Value="66"
+                    Margin="0,430,0,0"
+                    Foreground="OrangeRed"
+                    />
+            </Grid>
         </xctk:WizardPage>
         <xctk:WizardPage 
-			x:Name="LastPage" PageType="Interior"
+			x:Name="LastPage"
 			Title="Last Page"
+            PageType="Exterior"
 			Description="This is the last page in the process"
 			CanFinish="True">
             <Grid/>
