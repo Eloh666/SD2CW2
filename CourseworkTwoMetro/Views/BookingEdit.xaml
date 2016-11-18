@@ -15,7 +15,7 @@
 			x:Key="BoolToHiddenConverter"
 			TrueValue="Visible" FalseValue="Hidden" />
     </Controls:MetroWindow.Resources>
-        
+
     <xctk:Wizard FinishButtonClosesWindow="True">
         <xctk:WizardPage
 			x:Name="IntroPage"
@@ -108,7 +108,7 @@
 					Visibility="{Binding NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
                     />
                 <Label
-					x:Name="PasswordLabel_Copy"
+					x:Name="PasswordLabelCopy"
 					Content="Customer Address"
 					HorizontalAlignment="Left"
 					Margin="30,249,0,0"
@@ -132,7 +132,7 @@
                     Margin="425,75,0,0"
                     />
                 <TextBlock
-                    x:Name="InformationTextPG1"
+                    x:Name="InformationTextPg1"
                     HorizontalAlignment="Left"
                     Margin="30,25,0,0"
                     TextWrapping="Wrap"
@@ -159,8 +159,9 @@
 			Title="Page 1"
 			Description="This is the first page in the process.">
             <Grid>
+                
                 <Button
-                        x:Name="newGuest"
+                        x:Name="NewGuest"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Width="135"
@@ -341,7 +342,47 @@
             PageType="Exterior"
 			Description="This is the last page in the process"
 			CanFinish="True">
-            <Grid/>
+            <Grid>
+                <Label
+                    Content="BOOKING SUCCESSFULLY ADDED!"
+                    Margin="234,92,233,254"
+                    Foreground="YellowGreen"
+                    HorizontalAlignment="Center"
+                    FontSize="40"
+                />
+                <iconPacks:PackIconModern
+                	Kind="Check"
+                    VerticalAlignment="Center"
+                	HorizontalAlignment="Center"
+                	Height="118"
+                	Width="145"
+                	Foreground="YellowGreen"
+                	Visibility="{Binding LoginViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}" Margin="467,176,467,142"
+                 />
+                <Controls:ProgressRing
+            		Foreground="{DynamicResource AccentColorBrush}"
+            		Width="250"
+            		Height="250"
+            		Visibility="{Binding MainWindowViewModel.Loading, Converter={StaticResource BoolToHiddenConverter}}"
+                />
+                <Image
+                    x:Name="SideImageP3"
+                    HorizontalAlignment="Left"
+                    Height="530"
+                    Source="../Resources/Images/wizBg.png"
+                    Stretch="UniformToFill"
+                    Margin="-175,-80,0,-14"
+                    VerticalAlignment="Top"
+                    Width="160"
+                    />
+                <Controls:MetroProgressBar
+                    Minimum="0"
+                    Maximum="100"
+                    Value="100"
+                    Margin="0,430,0,0"
+                    Foreground="OrangeRed"
+                    />
+            </Grid>
         </xctk:WizardPage>
     </xctk:Wizard>
 </Controls:MetroWindow>

@@ -117,6 +117,7 @@
     <Compile Include="Utils\API\APIFacade.cs" />
     <Compile Include="Utils\JSONUtils\JSONLowerCaseConcractResolver.cs" />
     <Compile Include="Utils\JSONUtils\LowcaseJSONKeysSerializer.cs" />
+    <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\EditCustomerViewModel.cs" />
     <Compile Include="ViewModels\EditGuestViewModel.cs" />
     <Compile Include="ViewModels\FormWithSpinnerViewModel.cs" />

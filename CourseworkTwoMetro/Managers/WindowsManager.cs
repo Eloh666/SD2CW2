@@ -10,11 +10,13 @@ namespace CourseworkTwoMetro.Managers
         private static WindowsManager _instance;
         private readonly MainViewModel _mainViewModel;
         public LightRelayCommand NewCustomerCommand { get; private set; }
+        public LightRelayCommand NewBookingCommand { get; private set; }
 
         private WindowsManager(MainViewModel mainViewModel)
         {
             this._mainViewModel = mainViewModel;
             this.NewCustomerCommand = new LightRelayCommand(this.NewCustomer);
+            this.NewBookingCommand = new LightRelayCommand(this.NewBooking);
         }
 
         public static WindowsManager Instance(MainViewModel mainWinReference)
@@ -33,6 +35,13 @@ namespace CourseworkTwoMetro.Managers
         public void NewCustomer()
         {
             CustomerEdit customerEditWindow = new CustomerEdit {DataContext = new EditCustomerViewModel("Add new customer", null)};
+            customerEditWindow.ShowDialog();
+        }
+
+        public void NewBooking()
+        {
+            BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel() };
+            //BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel(this._mainViewModel) };
             customerEditWindow.ShowDialog();
         }
     }

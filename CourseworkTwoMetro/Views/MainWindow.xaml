@@ -71,10 +71,6 @@
             >
             <TabItem Header="Bookings" Margin="907,10,-907,-10">
                 <Grid Margin="0,0,0,-1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="551*"/>
-                        <ColumnDefinition Width="46*"/>
-                    </Grid.ColumnDefinitions>
                     <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=MainWindowViewModel.Bookings}" Margin="0,10,0,90" Grid.ColumnSpan="2" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Reference Number" Width="299" Binding="{Binding Id}"/>
@@ -91,7 +87,9 @@
                         Width="295"
                         Height="42"
                         Background="DodgerBlue"
-                        FontSize="20" Grid.ColumnSpan="2"
+                        FontSize="20"
+                        Grid.ColumnSpan="2"
+                        Command="{Binding Windows.NewBookingCommand}"
                         >
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconModern
