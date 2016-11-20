@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
+using CourseworkTwoMetro.Models.Extras;
 using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels

@@ -2,14 +2,9 @@
 {
     public abstract class Extra
     {
-        public double NightlyCost { get; set; }
+        private const double NightlyCost = 0;
 
-        protected Extra(double nightlyCost)
-        {
-            NightlyCost = nightlyCost;
-        }
-
-        public virtual double GetCost(int nights)
+        public virtual double GetCost(double nights)
         {
             return NightlyCost * nights;
         }

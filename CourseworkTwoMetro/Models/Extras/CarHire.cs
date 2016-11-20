@@ -4,20 +4,18 @@ namespace CourseworkTwoMetro.Models.Extras
 {
     public class CarHire : Extra
     {
+        private const double NightlyCost = 50;
         public DateTime HireStart { get; set; }
         public DateTime HireEnd { get; set; }
-        public CarHire(double nightlyCost) : base(50)
-        {
-        }
 
-        public override double GetCost(int nights)
+        public override double GetCost(double nights)
         {
             return this.GetCost();
         }
 
-        public double GetCost()
+        private double GetCost()
         {
-            return this.NightlyCost * (HireEnd - HireStart).TotalDays;
+            return NightlyCost * (this.HireEnd - this.HireStart).TotalDays;
         }
     }
 }

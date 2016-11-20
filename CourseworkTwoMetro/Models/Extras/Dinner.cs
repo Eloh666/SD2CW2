@@ -1,10 +1,7 @@
 ﻿namespace CourseworkTwoMetro.Models.Extras
 {
-    public class Dinner : Meal
+    public class Dinner : Extra
     {
-        public Dinner(string dietaryReqs) : base(15, dietaryReqs)
-        {
-
-        }
+        private const double DinnerCost = 15;
     }
 }

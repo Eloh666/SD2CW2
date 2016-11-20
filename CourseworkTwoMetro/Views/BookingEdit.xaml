@@ -38,7 +38,7 @@
                         IsEnabled="{Binding UseExistingCustomer}"
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding Customers}"
-                        Width="450" Margin="600,25,29,81"
+                        Width="450" Margin="600,25,29,31"
                 >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Reference Number" Width="150" Binding="{Binding ReferenceNumber}"/>
@@ -149,24 +149,6 @@
                         VerticalAlignment="Top"
                         Width="160"
                 />
-                <Label
-                        x:Name="AmountLabelP1"
-                        Content="Current Total:"
-                        HorizontalAlignment="Left"
-                        Margin="907,395,0,0"
-                        VerticalAlignment="Top"
-                        FontSize="13"
-                        FontWeight="Bold"
-                    />
-                <Label
-                        x:Name="BookingTotalP1"
-                        Content=""
-                        HorizontalAlignment="Left"
-                        Margin="1000,395,0,0"
-                        VerticalAlignment="Top"
-                        FontSize="13"
-                        FontWeight="Bold" Width="79"
-                    />
             </Grid>
         </xctk:WizardPage>
         <xctk:WizardPage
@@ -217,8 +199,9 @@
                 </DataGrid>
                 <xctk:DateTimePicker
                         x:Name="VacationTimeStartPicker"
-                        Width="150"
+                        Width="144"
                         Height="20"
+                        TimeFormat="ShortDate"
                         AutoCloseCalendar="True"
                         MouseWheelActiveTrigger="FocusedMouseOver"
                         UpdateValueOnEnterKey="True"
@@ -227,8 +210,9 @@
                 />
                 <xctk:DateTimePicker
                         x:Name="VacationTimeEndPicker"
-                        Width="150"
+                        Width="144"
                         Height="20"
+                        TimeFormat="ShortDate"
                         AutoCloseCalendar="True"
                         MouseWheelActiveTrigger="FocusedMouseOver"
                         UpdateValueOnEnterKey="True"
@@ -245,22 +229,24 @@
                 />
                 <xctk:DateTimePicker
                         x:Name="HireTimeStartPicker"
-                        Width="150"
+                        Width="144"
                         Height="20"
+                        TimeFormat="ShortDate"
                         AutoCloseCalendar="True"
                         MouseWheelActiveTrigger="FocusedMouseOver"
                         UpdateValueOnEnterKey="True"
-                        Margin="29,205,900,211"
+                        Margin="25,205,900,211"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
                 />
                 <xctk:DateTimePicker
                         x:Name="HireTimeEndPicker"
-                        Width="150"
+                        Width="144"
                         Height="20"
+                        TimeFormat="ShortDate"
                         AutoCloseCalendar="True"
                         MouseWheelActiveTrigger="FocusedMouseOver"
                         UpdateValueOnEnterKey="True"
-                        Margin="204,205,725,211"
+                        Margin="200,205,725,211"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
                 />
                 <Controls:ToggleSwitch
@@ -383,7 +369,7 @@
                     />
                 <Label
                         x:Name="BookingTotalP2"
-                        Content=""
+                        Content="{Binding NewBooking.GetCost}"
                         HorizontalAlignment="Left"
                         Margin="1000,395,0,0"
                         VerticalAlignment="Top"

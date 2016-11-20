@@ -110,7 +110,6 @@
     <Compile Include="Models\Extras\Breakfast.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Extras\Extra.cs" />
-    <Compile Include="Models\Extras\Meal.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\User.cs" />
