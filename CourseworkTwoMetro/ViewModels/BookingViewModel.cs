@@ -1,15 +1,21 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class BookingViewModel : PropertyChangedNotifier
+    public class BookingViewModel : FormWithSpinnerViewModel
     {
+
+        // managers singletons
+        public WindowsManager Windows { get; }
+        public CommandsManager Commands { get; }
+
         // customers and bookings lists
-        private ObservableCollection<Customer> _customers;
-        public ObservableCollection<Booking> _bookings;
+        public ObservableCollection<Customer> Customers { get; }
+        public ObservableCollection<Booking> Bookings { get; }
 
         // wizard page one bindings
         public Customer NewCustomer { get; set; }
@@ -18,18 +24,26 @@ namespace CourseworkTwoMetro.ViewModels
 
         // wizard page two bindings
         public Booking NewBooking { get; set; }
-        public Guest TempNewBooking { get; set; }
+        public Guest NewGuest { get; set; }
         private bool _carHireSwitch;
         private bool _breakfastSwitch;
         private bool _dinnerSwitch;
         private ObservableCollection<Guest> _currentGestsList;
 
-        public ObservableCollection<Customer> Customers => _customers;
-        public ObservableCollection<Booking> Bookings => _bookings;
+        public BookingViewModel(MainViewModel mainViewModel)
+        {
+            this.Commands = CommandsManager.Instance(mainViewModel);
+            this.Windows = WindowsManager.Instance(mainViewModel);
+            this.NewBooking = new Booking();
+            this.NewCustomer = new Customer();
+            this.Customers = mainViewModel.MainWindowViewModel.Customers;
+            this.Bookings = mainViewModel.MainWindowViewModel.Bookings;
+            this.CreateNewCustomer = true;
+        }
 
-        
+        public bool DieteryReqsShow => this.BreakfastSwitch || this.DinnerSwitch;
 
-        public bool NewCustomerRadio
+        public bool CreateNewCustomer
         {
             get { return _newCustomerRadio; }
             set
@@ -40,7 +54,7 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
-        public bool ExistingCustomerRadio
+        public bool UseExistingCustomer
         {
             get { return _existingCustomerRadio; }
             set
@@ -67,7 +81,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _breakfastSwitch = value;
-                OnPropertyChangedEvent("BreakfastSwitch");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -77,7 +91,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _dinnerSwitch = value;
-                OnPropertyChangedEvent("DinnerSwitch");
+                OnPropertyChangedEvent(null);
             }
         }
 

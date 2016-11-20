@@ -40,8 +40,7 @@ namespace CourseworkTwoMetro.Managers
 
         public void NewBooking()
         {
-            BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel() };
-            //BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel(this._mainViewModel) };
+            BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel(this._mainViewModel) };
             customerEditWindow.ShowDialog();
         }
     }
