@@ -20,26 +20,49 @@ namespace CourseworkTwoMetro.ViewModels
 
         // wizard page one bindings
         public Customer NewCustomer { get; set; }
+        public Customer ExistingCustomer { get; set; }
         private bool _newCustomerRadio;
         private bool _existingCustomerRadio;
 
         // wizard page two bindings
         public Booking NewBooking { get; set; }
         public Guest NewGuest { get; set; }
+        public Guest SelectedGuest { get; set; }
         private bool _carHireSwitch;
         private bool _breakfastSwitch;
         private bool _dinnerSwitch;
         private ObservableCollection<Guest> _currentGestsList;
 
+        // new booking
         public BookingViewModel(MainViewModel mainViewModel)
         {
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
-            this.NewBooking = new Booking();
-            this.NewCustomer = new Customer();
             this.Customers = mainViewModel.MainWindowViewModel.Customers;
             this.Bookings = mainViewModel.MainWindowViewModel.Bookings;
             this.CreateNewCustomer = true;
+
+            if (this.NewBooking == null)
+            {
+                this.NewBooking = new Booking();
+            }          
+            this.NewCustomer = new Customer();
+            if (this.NewBooking.CustomerId == null) return;
+            foreach (var customer in Customers)
+            {
+                if (customer.ReferenceNumber != NewBooking.CustomerId) continue;
+                this.ExistingCustomer = customer;
+                break;
+            }
+        }
+
+        //edit booking
+        public BookingViewModel(MainViewModel mainViewModel, Booking selectedBooking) : this(mainViewModel)
+        {
+            this.NewBooking = selectedBooking;
+            Console.WriteLine(selectedBooking.CustomerId);
+            this.ExistingCustomer = null;
+            
         }
 
         public bool DieteryReqsShow => this.BreakfastSwitch || this.DinnerSwitch;

@@ -167,6 +167,8 @@
                         Background="DodgerBlue"
                         FontSize="12"
                         Margin="920,96,0,0"
+                        Command="{Binding Windows.NewGuestCommand}"
+                        CommandParameter="{Binding}"
                 >
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconModern
@@ -188,7 +190,8 @@
                         IsEnabled="True"
                         AutoGenerateColumns="False"
                         BorderBrush="DodgerBlue"
-                        ItemsSource="{Binding MainWindowViewModel.Bookings}"
+                        ItemsSource="{Binding NewBooking.Guests}"
+                        SelectedItem="{Binding SelectedGuest}"
                         Width="450" Margin="605,127,24,109"
                 >
                     <DataGrid.Columns>
@@ -342,6 +345,8 @@
                         Width="40"
                         Height="40"
                         Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding Windows.DeleteGuestCommand}"
+                        CommandParameter="{Binding}"
                 />
                 <Button
                         x:Name="EditButton"
@@ -350,6 +355,8 @@
                         Width="40"
                         Height="40"
                         Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding Windows.EditGuestCommand}"
+                        CommandParameter="{Binding}"
                 />
                 <Controls:MetroProgressBar
                         Minimum="0"

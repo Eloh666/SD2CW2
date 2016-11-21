@@ -1,4 +1,5 @@
-﻿using CourseworkTwoMetro.Utils.API;
+﻿using System;
+using CourseworkTwoMetro.Utils.API;
 using MahApps.Metro.Controls;
 
 namespace CourseworkTwoMetro.Views

@@ -7,9 +7,11 @@ namespace CourseworkTwoMetro.ViewModels
     public class EditGuestViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        public string Title { get; set; }
         public Guest Guest { get; }
-        public EditGuestViewModel(Guest guest = null)
+        public EditGuestViewModel(string title, Guest guest = null)
         {
+            this.Title = title;
             this.Guest = guest ?? new Guest();
             _fieldsUseDictionary = new Dictionary<string, bool>();
             this._fieldsUseDictionary.Add("Name", false);

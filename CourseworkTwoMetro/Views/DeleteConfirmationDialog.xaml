@@ -1,0 +1,52 @@
+﻿<Controls:MetroWindow
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils"
+                      x:Class="CourseworkTwoMetro.Views.DeleteConfirmationDialog"
+                      Title="{Binding Title}"
+                      Height="250"
+                      Width="600">
+    <Controls:MetroWindow.Resources>
+        <utils:BoolToVisibilityConv
+			x:Key="BoolToHiddenConverter"
+			TrueValue="Visible" FalseValue="Hidden" />
+    </Controls:MetroWindow.Resources>
+    <Grid>
+        <Button
+                        x:Name="DeleteButton"
+                        Content="{Custom:PackIconModern Delete}"
+                        Width="40"
+                        Height="40"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Background="OrangeRed"
+                        ToolTip="Delete"
+                        Margin="405,169,147,10"
+                />
+        <Button
+                        x:Name="EditButton"
+                        Content="{Custom:PackIconModern Cancel}"
+                        Width="40"
+                        Height="40"
+                        ToolTip="Cancel"
+                        Background="DodgerBlue"
+                        Style="{DynamicResource MetroCircleButtonStyle}" Margin="515,169,37,10"
+                />
+        <Controls:ProgressRing
+            Foreground="{DynamicResource AccentColorBrush}"
+            Width="150"
+            Height="150"
+            Visibility="{Binding Loading, Converter={StaticResource BoolToHiddenConverter}}"
+            />
+        <TextBlock
+            x:Name="ConfirmationLabel"
+            HorizontalAlignment="Left"
+            Margin="30,30,0,0"
+            TextWrapping="Wrap"
+            Text="This will remove the selected item permanently. Are you sure you want to proceed?"
+            FontSize="20"
+            VerticalAlignment="Top
+            "/>
+    </Grid>
+</Controls:MetroWindow>
