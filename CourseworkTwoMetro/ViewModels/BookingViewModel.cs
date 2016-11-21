@@ -9,6 +9,7 @@ namespace CourseworkTwoMetro.ViewModels
 {
     public class BookingViewModel : FormWithSpinnerViewModel
     {
+        public string Title { get; }
 
         // managers singletons
         public WindowsManager Windows { get; }
@@ -34,8 +35,9 @@ namespace CourseworkTwoMetro.ViewModels
         private ObservableCollection<Guest> _currentGestsList;
 
         // new booking
-        public BookingViewModel(MainViewModel mainViewModel)
+        public BookingViewModel(string title, MainViewModel mainViewModel)
         {
+            this.Title = title;
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
             this.Customers = mainViewModel.MainWindowViewModel.Customers;
@@ -57,10 +59,9 @@ namespace CourseworkTwoMetro.ViewModels
         }
 
         //edit booking
-        public BookingViewModel(MainViewModel mainViewModel, Booking selectedBooking) : this(mainViewModel)
+        public BookingViewModel(string title, MainViewModel mainViewModel, Booking selectedBooking) : this(title, mainViewModel)
         {
             this.NewBooking = selectedBooking;
-            Console.WriteLine(selectedBooking.CustomerId);
             this.ExistingCustomer = null;
             
         }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CourseworkTwoMetro.Utils.API;
 using CourseworkTwoMetro.Utils.RelayCommands;
 using CourseworkTwoMetro.ViewModels;
 using CourseworkTwoMetro.Views;
@@ -58,7 +59,7 @@ namespace CourseworkTwoMetro.Managers
 
         private void NewBooking(MainWindowViewModel mainWindowViewModel)
         {
-            BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel(this._mainViewModel) };
+            BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel("Add new booking", this._mainViewModel) };
             customerEditWindow.ShowDialog();
         }
 
@@ -68,7 +69,7 @@ namespace CourseworkTwoMetro.Managers
             {
                 case 0:
                     {
-                        BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel(this._mainViewModel, mainWindowViewModel.SelectedBooking) };
+                        BookingEdit customerEditWindow = new BookingEdit { DataContext = new BookingViewModel("Edit booking", this._mainViewModel, mainWindowViewModel.SelectedBooking) };
                         customerEditWindow.ShowDialog();
                     }
                     break;
@@ -107,14 +108,14 @@ namespace CourseworkTwoMetro.Managers
             {
                 case 0:
                     {
-                        DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel() };
+                        DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel("Delete Booking", this._mainViewModel) };
                         deleteDialog.ShowDialog();
                     }
                     break;
                 case 1:
                 default:
                     {
-                        DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel() };
+                        DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel("Delete Customer", this._mainViewModel) };
                         deleteDialog.ShowDialog();
                     }
                     break;
@@ -140,7 +141,7 @@ namespace CourseworkTwoMetro.Managers
 
         private void DeleteGuest(BookingViewModel bookingViewModel)
         {
-            DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel() };
+            DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel("Remove Guest", this._mainViewModel) };
             deleteDialog.ShowDialog();
         }
     }

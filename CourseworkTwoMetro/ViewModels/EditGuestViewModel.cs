@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 
 namespace CourseworkTwoMetro.ViewModels
 {
     public class EditGuestViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
+        // managers singletons
+        public WindowsManager Windows { get; }
+        public CommandsManager Commands { get; }
+
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
         public string Title { get; set; }
         public Guest Guest { get; }

@@ -37,6 +37,11 @@ namespace CourseworkTwoMetro.Utils.API
             }
         }
 
+        public static void PostData(object data, string path)
+        {
+            string json = JsonConvert.SerializeObject(data);
+            Console.WriteLine(json);
+        }
 
         public static async Task<ObservableCollection<Customer>> GetCustomers()
         {

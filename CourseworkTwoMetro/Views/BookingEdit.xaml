@@ -6,7 +6,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:Utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils" x:Class="CourseworkTwoMetro.Views.BookingEdit"
         ResizeMode="NoResize"
-        Title="Booking"
+        Title="{Binding Title}"
         Height="600"
         Width="1280">
 

@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 
 namespace CourseworkTwoMetro.ViewModels
 {
     public class EditCustomerViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
+        // managers singletons
+        public WindowsManager Windows { get; }
+        public CommandsManager Commands { get; }
+
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
         public string Title { get; set; }
         public Customer Customer { get; }
@@ -17,6 +22,8 @@ namespace CourseworkTwoMetro.ViewModels
             this._fieldsUseDictionary.Add("Name", false);
             this._fieldsUseDictionary.Add("ReferenceNumber", false);
             this._fieldsUseDictionary.Add("Address", false);
+            this.Commands = CommandsManager.Instance(mainViewModel);
+            this.Windows = WindowsManager.Instance(mainViewModel);
         }
 
         public string Name
