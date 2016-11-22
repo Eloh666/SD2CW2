@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Models.Extras;
+using CourseworkTwoMetro.Utils.API;
 using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
@@ -62,6 +63,7 @@ namespace CourseworkTwoMetro.ViewModels
         public BookingViewModel(string title, MainViewModel mainViewModel, Booking selectedBooking) : this(title, mainViewModel)
         {
             this.NewBooking = selectedBooking;
+            ApiFacade.PostData(selectedBooking, "");
             this.ExistingCustomer = null;
             
         }

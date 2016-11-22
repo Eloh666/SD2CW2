@@ -22,8 +22,6 @@ namespace CourseworkTwoMetro.ViewModels
             this._fieldsUseDictionary.Add("Name", false);
             this._fieldsUseDictionary.Add("ReferenceNumber", false);
             this._fieldsUseDictionary.Add("Address", false);
-            this.Commands = CommandsManager.Instance(mainViewModel);
-            this.Windows = WindowsManager.Instance(mainViewModel);
         }
 
         public string Name
