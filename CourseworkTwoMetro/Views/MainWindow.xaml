@@ -72,6 +72,7 @@
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding Path=MainWindowViewModel.Bookings}"
                         Margin="0,10,0,90"
+                        Width="1200"
                         Grid.ColumnSpan="2"
                         SelectedItem="{Binding MainWindowViewModel.SelectedBooking}"
                         IsReadOnly="True"
@@ -170,5 +171,44 @@
             Width="381"
             Source="../Resources/Images/EdNapLog.jpg"
             />
+        <StackPanel
+            HorizontalAlignment="Left"
+            Height="475"
+            Margin="50,385,0,0"
+            VerticalAlignment="Top"
+            Width="295"
+        >
+            <Label x:Name="ItemIDLabel" Content="Label" FontSize="15"/>
+            <Label x:Name="BookingStartLabel" Content="Label" FontSize="15"/>
+            <Label x:Name="BookingEndLabel" Content="Label" FontSize="15"/>
+            <Separator/>
+            <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" />
+            <CheckBox x:Name="DinnerCheckbox" Content="Dinner"/>
+            <Label x:Name="DietaryLabel" Content="Label" FontSize="15"/>
+            <Separator/>
+            <CheckBox x:Name="CarCheckBox" Content="CarHire"/>
+            <Label x:Name="CarHireStartLabel" Content="Label" FontSize="15"/>
+            <Label x:Name="CarHireEndLabel" Content="Label" FontSize="15"/>
+            <Separator/>
+            <Separator/>
+            <Label x:Name="Guests" Content="Guests" FontSize="15"/>
+            <DataGrid
+                        x:Name="GuestsTable"
+                        BorderThickness="1"
+                        IsEnabled="True"
+                        AutoGenerateColumns="False"
+                        BorderBrush="DodgerBlue"
+                        ItemsSource="{Binding NewBooking.Guests}"
+                        SelectedItem="{Binding SelectedGuest}"
+ 
+                        IsReadOnly="True"
+                >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Customer Name" Width="295" Binding="{Binding Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+        </StackPanel>
     </Grid>
 </Controls:MetroWindow>
