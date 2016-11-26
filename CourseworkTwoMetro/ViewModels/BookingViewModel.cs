@@ -1,135 +1,173 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using CourseworkTwoMetro.Managers;
+using System.Collections.Generic;
+using System.ComponentModel;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Models.Extras;
-using CourseworkTwoMetro.Utils.API;
 using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class BookingViewModel : FormWithSpinnerViewModel
+    public class BookingViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
-        public string Title { get; }
+        public Booking Booking { get; set; }
+        private readonly Dictionary<string, bool> _fieldsUseDictionary;
 
-        // managers singletons
-        public WindowsManager Windows { get; }
-        public CommandsManager Commands { get; }
-
-        // customers and bookings lists
-        public ObservableCollection<Customer> Customers { get; }
-        public ObservableCollection<Booking> Bookings { get; }
-
-        // wizard page one bindings
-        public Customer NewCustomer { get; set; }
-        public Customer ExistingCustomer { get; set; }
-        private bool _newCustomerRadio;
-        private bool _existingCustomerRadio;
-
-        // wizard page two bindings
-        public Booking NewBooking { get; set; }
-        public Guest NewGuest { get; set; }
-        public Guest SelectedGuest { get; set; }
-        private bool _carHireSwitch;
-        private bool _breakfastSwitch;
-        private bool _dinnerSwitch;
-        private ObservableCollection<Guest> _currentGestsList;
-
-        // new booking
-        public BookingViewModel(string title, MainViewModel mainViewModel)
+        public BookingViewModel(Booking booking)
         {
-            this.Title = title;
-            this.Commands = CommandsManager.Instance(mainViewModel);
-            this.Windows = WindowsManager.Instance(mainViewModel);
-            this.Customers = mainViewModel.MainWindowViewModel.Customers;
-            this.Bookings = mainViewModel.MainWindowViewModel.Bookings;
-            this.CreateNewCustomer = true;
+            this.Booking = booking;
+            _fieldsUseDictionary = new Dictionary<string, bool>();
+            this._fieldsUseDictionary.Add("Id", false);
+            this._fieldsUseDictionary.Add("ArrivalDate", false);
+            this._fieldsUseDictionary.Add("DepartureDate", false);
+            this._fieldsUseDictionary.Add("DietaryReqs", false);
+            this._fieldsUseDictionary.Add("Dinner", false);
+            this._fieldsUseDictionary.Add("CarHire", false);
+            this._fieldsUseDictionary.Add("Breakfast", false);
+            this._fieldsUseDictionary.Add("Guests", false);
+        }
 
-            if (this.NewBooking == null)
+        public int Id
+        {
+            get { return Booking.Id; }
+            set
             {
-                this.NewBooking = new Booking();
-            }          
-            this.NewCustomer = new Customer();
-            if (this.NewBooking.CustomerId == null) return;
-            foreach (var customer in Customers)
-            {
-                if (customer.ReferenceNumber != NewBooking.CustomerId) continue;
-                this.ExistingCustomer = customer;
-                break;
+                this.Booking.Id = value;
+                OnPropertyChangedEvent("Id");
             }
         }
 
-        //edit booking
-        public BookingViewModel(string title, MainViewModel mainViewModel, Booking selectedBooking) : this(title, mainViewModel)
+        public DateTime ArrivalDate
         {
-            this.NewBooking = selectedBooking;
-            ApiFacade.PostData(selectedBooking, "");
-            this.ExistingCustomer = null;
-            
-        }
-
-        public bool DieteryReqsShow => this.BreakfastSwitch || this.DinnerSwitch;
-
-        public bool CreateNewCustomer
-        {
-            get { return _newCustomerRadio; }
+            get { return Booking.ArrivalDate; }
             set
             {
-                _newCustomerRadio = value;
-                _existingCustomerRadio = !value;
+                this.Booking.ArrivalDate = value;
+                this._fieldsUseDictionary["ArrivalDate"] = true;
+                OnPropertyChangedEvent("ArrivalDate");
+            }
+        }
+
+        public DateTime DepartureDate
+        {
+            get { return Booking.DepartureDate; }
+            set
+            {
+                this.Booking.DepartureDate = value;
+                this._fieldsUseDictionary["DepartureDate"] = true;
+                OnPropertyChangedEvent("DepartureDate");
+            }
+        }
+
+        public string DietaryReqs
+        {
+            get { return Booking.DietaryReqs; }
+            set
+            {
+                this.Booking.DietaryReqs = value;
+                this._fieldsUseDictionary["DietaryReqs"] = true;
+                OnPropertyChangedEvent("DietaryReqs");
+            }
+        }
+
+        public List<Guest> Guests
+        {
+            get { return Booking.Guests; }
+            set
+            {
+                this.Booking.Guests = value;
+                this._fieldsUseDictionary["Guests"] = true;
+                OnPropertyChangedEvent("Guests");
+            }
+        }
+
+        public Dinner Dinner
+        {
+            get { return Booking.Dinner; }
+            set
+            {
+                this.Booking.Dinner = value;
+                this._fieldsUseDictionary["Dinner"] = true;
+                OnPropertyChangedEvent("Dinner");
+            }
+        }
+
+        public CarHire CarHire
+        {
+            get { return Booking.CarHire; }
+            set
+            {
+                this.Booking.CarHire = value;
+                this._fieldsUseDictionary["CarHire"] = true;
+                OnPropertyChangedEvent("CarHire");
+            }
+        }
+
+        public Breakfast Breakfast
+        {
+            get { return Booking.Breakfast; }
+            set
+            {
+                this.Booking.Breakfast = value;
+                this._fieldsUseDictionary["Breakfast"] = true;
+                OnPropertyChangedEvent("Breakfast");
+            }
+        }
+
+        public double GetCost => Booking.GetCost;
+
+        string IDataErrorInfo.Error => null;
+        string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
+
+        // fields that require validation
+        private static readonly string[] ValidationFields =
+        {
+            "ArrivalDate",
+            "DepartureDate",
+            "Guests",
+        };
+
+        public bool IsBookingValid
+        {
+            get
+            {
+                this._fieldsUseDictionary["ArrivalDate"] = true;
+                this._fieldsUseDictionary["DepartureDate"] = true;
+
+                foreach (string field in ValidationFields)
+                {
+                    if (GetValidationError(field) != null)
+                    {
+                        OnPropertyChangedEvent(null);
+                        return false;
+                    }
+                }
                 OnPropertyChangedEvent(null);
+                return true;
             }
         }
 
-        public bool UseExistingCustomer
+        // validates fields based on the requirements of the model
+        private string GetValidationError(string fieldName)
         {
-            get { return _existingCustomerRadio; }
-            set
+            string error = null;
+            if (this._fieldsUseDictionary[fieldName])
             {
-                _existingCustomerRadio = value;
-                _newCustomerRadio = !value;
-                OnPropertyChangedEvent(null);
+                switch (fieldName)
+                {
+                    case "ArrivalDate":
+                        error = this.Booking.ValidateArrivalDate();
+                        break;
+                    case "DepartureDate":
+                        error = this.Booking.ValidateDepartureDate();
+                        break;
+                    case "Guests":
+                        error = this.Booking.ValidateGuestsList();
+                        break;
+                }
             }
+            return error;
         }
 
-        public bool CarHireSwitch
-        {
-            get { return _carHireSwitch; }
-            set
-            {
-                _carHireSwitch = value;
-                OnPropertyChangedEvent("CarHireSwitch");
-            }
-        }
 
-        public bool BreakfastSwitch
-        {
-            get { return _breakfastSwitch; }
-            set
-            {
-                _breakfastSwitch = value;
-                OnPropertyChangedEvent(null);
-            }
-        }
-
-        public bool DinnerSwitch
-        {
-            get { return _dinnerSwitch; }
-            set
-            {
-                _dinnerSwitch = value;
-                OnPropertyChangedEvent(null);
-            }
-        }
-
-        public ObservableCollection<Guest> CurrentGestsList
-        {
-            get { return _currentGestsList; }
-            set
-            {
-                _currentGestsList = value;
-                OnPropertyChangedEvent("CurrentGestsList");
-            }
-        }
     }
 }

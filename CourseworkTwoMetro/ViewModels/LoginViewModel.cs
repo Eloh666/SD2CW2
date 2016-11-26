@@ -62,9 +62,6 @@ namespace CourseworkTwoMetro.ViewModels
             "Password",
         };
 
-        // check the whole attendee for being valid, the dictionary is used
-        // to avoid displaying the validation errors until a field has actually been used
-        // at least once or the user has tried to save/open an extra window
         public bool IsUserValid
         {
             get

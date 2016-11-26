@@ -21,8 +21,9 @@ namespace CourseworkTwoMetro.Utils.JSONUtils
             property.ShouldSerialize = instance => property.PropertyName != "breakfast" &&
                                                    property.PropertyName != "dinner" &&
                                                    property.PropertyName != "carhire" &&
-                                                   property.PropertyName != "getcost";
-            Console.WriteLine(property.PropertyName + "   " + property.ShouldSerialize);
+                                                   property.PropertyName != "getcost" &&
+                                                   ! property.PropertyName.StartsWith("Validate")
+                                                   ;
             return property;
         }
 

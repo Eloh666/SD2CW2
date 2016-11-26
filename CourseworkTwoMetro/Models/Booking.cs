@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using CourseworkOneMetro.Models.Utils;
 using CourseworkTwoMetro.Models.Extras;
 
 namespace CourseworkTwoMetro.Models
@@ -60,6 +61,38 @@ namespace CourseworkTwoMetro.Models
                 double bookings = Guests.Sum(guest => (guest.Age < 18 ? 30 : 50) * nights);
                 return extras + bookings;
             }
+        }
+
+        public string ValidateArrivalDate()
+        {
+            if (this.ArrivalDate < default(DateTime))
+            {
+                return "Your booking date cannot start in the past";
+            }
+            if (this.ArrivalDate > this.DepartureDate)
+            {
+                return "Your booking cannot start after its end";
+            }
+
+            return null;
+        }
+
+        public string ValidateDepartureDate()
+        {
+            if (this.DepartureDate < DateTime.Now)
+            {
+                return "Your booking date cannot start in the past";
+            }
+            if (this.ArrivalDate > this.DepartureDate)
+            {
+                return "Your booking cannot end before its start";
+            }
+            return null;
+        }
+
+        public string ValidateGuestsList()
+        {
+            return this.Guests.Count == 0 ? "You need at leaast a guest for this booking" : null;
         }
 
     }

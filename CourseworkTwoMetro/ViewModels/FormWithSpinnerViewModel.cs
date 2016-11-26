@@ -6,10 +6,13 @@ namespace CourseworkTwoMetro.ViewModels
     {
         private bool _loading;
         private bool _loadingFailed;
+        private bool _loadingSuccess;
 
         protected FormWithSpinnerViewModel()
         {
             this._loading = false;
+            this._loadingFailed = false;
+            this._loadingSuccess = false;
         }
         public bool NotLoading => !this._loading;
         public bool Loading
@@ -18,7 +21,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this._loading = value;
-                OnPropertyChangedEvent("Loading");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -29,6 +32,16 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this._loadingFailed = value;
                 OnPropertyChangedEvent("LoadingFailed");
+            }
+        }
+
+        public bool LoadingSuccess
+        {
+            get { return this._loadingFailed; }
+            set
+            {
+                this._loadingFailed = value;
+                OnPropertyChangedEvent("LoadingSuccess");
             }
         }
     }

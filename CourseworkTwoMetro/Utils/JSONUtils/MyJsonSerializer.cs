@@ -6,8 +6,7 @@ namespace CourseworkTwoMetro.Utils.JSONUtils
     {
         public static string Serialize(object data)
         {
-            var settings = new JsonSerializerSettings();
-            settings.ContractResolver = new JsonCustomContractResolver();
+            var settings = new JsonSerializerSettings {ContractResolver = new JsonCustomContractResolver()};
             return JsonConvert.SerializeObject(data, Formatting.Indented, settings);
         }
     }

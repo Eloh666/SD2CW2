@@ -28,7 +28,7 @@
             x:Name="DeleteButton"
             Height="80"
             Content="{iconPacks:PackIconModern Delete}"
-            Margin="135,880,186,59"
+            Margin="135,891,186,50"
             Style="{DynamicResource MetroCircleButtonStyle}"
             Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Command="{Binding MainWindowViewModel.Windows.DeleteMainTabItemCommand}"
@@ -39,7 +39,7 @@
             x:Name="EditButton"
         	Height="80"
         	Content="{iconPacks:PackIconModern Edit}"
-        	Margin="265,880,56,59"
+        	Margin="265,891,56,50"
         	Style="{DynamicResource MetroCircleButtonStyle}"
             Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Command="{Binding MainWindowViewModel.Windows.EditMainTabItemCommand}"
@@ -173,42 +173,28 @@
             />
         <StackPanel
             HorizontalAlignment="Left"
-            Height="475"
-            Margin="50,385,0,0"
+            Height="455"
+            Margin="50,375,0,0"
             VerticalAlignment="Top"
             Width="295"
         >
-            <Label x:Name="ItemIDLabel" Content="Label" FontSize="15"/>
-            <Label x:Name="BookingStartLabel" Content="Label" FontSize="15"/>
-            <Label x:Name="BookingEndLabel" Content="Label" FontSize="15"/>
-            <Separator/>
-            <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" />
-            <CheckBox x:Name="DinnerCheckbox" Content="Dinner"/>
-            <Label x:Name="DietaryLabel" Content="Label" FontSize="15"/>
-            <Separator/>
-            <CheckBox x:Name="CarCheckBox" Content="CarHire"/>
-            <Label x:Name="CarHireStartLabel" Content="Label" FontSize="15"/>
-            <Label x:Name="CarHireEndLabel" Content="Label" FontSize="15"/>
-            <Separator/>
-            <Separator/>
-            <Label x:Name="Guests" Content="Guests" FontSize="15"/>
-            <DataGrid
-                        x:Name="GuestsTable"
-                        BorderThickness="1"
-                        IsEnabled="True"
-                        AutoGenerateColumns="False"
-                        BorderBrush="DodgerBlue"
-                        ItemsSource="{Binding NewBooking.Guests}"
-                        SelectedItem="{Binding SelectedGuest}"
- 
-                        IsReadOnly="True"
-                >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Customer Name" Width="295" Binding="{Binding Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-
+            <Label x:Name="ItemIDLabel" Content="Label" FontSize="15" Height="30"/>
+            <Label x:Name="BookingStartLabel" Content="Label" FontSize="15" Height="30"/>
+            <Label x:Name="BookingEndLabel" Content="Label" FontSize="15" Height="30"/>
+            <Separator Height="30" Background="Transparent"/>
+            <Grid>
+                <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" Height="30" Width="100" Margin="75,0,139,0"/>
+                <CheckBox x:Name="DinnerCheckbox" Content="Dinner" Height="30" Width="100" Margin="175,0,32,0"/>
+            </Grid>
+            <Label x:Name="DietaryLabel" Content="Label" FontSize="15" Height="30"/>
+            <Separator Height="30" Background="Transparent"/>
+            <CheckBox x:Name="CarCheckBox" Content="CarHire" HorizontalAlignment="Center"/>
+            <Label x:Name="CarHireStartLabel" Content="Label" FontSize="15" Height="40"/>
+            <Label x:Name="CarHireEndLabel" Content="Label" FontSize="15" Height="30"/>
+            <Separator Height="30" Background="Transparent"/>
+            <Label x:Name="Guests" Content="GuestsNumber" FontSize="15" Height="30"/>
+            <Separator Height="30" Background="Transparent"/>
+            <Label x:Name="Cost" Content="Guests" FontSize="15" Height="30"/>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>
