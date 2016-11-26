@@ -3,11 +3,11 @@
     public abstract class Extra
     {
         private const double NightlyCost = 0;
-        private string type;
+        private string _type;
 
-        protected Extra(string type)
+        public Extra(string type)
         {
-            this.type = type;
+            this._type = type;
         }
 
         public virtual double GetCost(double nights)

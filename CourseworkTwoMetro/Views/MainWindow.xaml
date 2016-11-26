@@ -74,6 +74,7 @@
                         Margin="0,10,0,90"
                         Grid.ColumnSpan="2"
                         SelectedItem="{Binding MainWindowViewModel.SelectedBooking}"
+                        IsReadOnly="True"
                         >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Reference Number" Width="299" Binding="{Binding Id}"/>
@@ -117,6 +118,7 @@
                         ItemsSource="{Binding Path=MainWindowViewModel.Customers}"
                         Margin="0,10,0,90" Grid.ColumnSpan="2"
                         SelectedItem="{Binding MainWindowViewModel.SelectedCustomer}"
+                        IsReadOnly="True"
                         >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Reference Number" Width="399" Binding="{Binding ReferenceNumber}"/>

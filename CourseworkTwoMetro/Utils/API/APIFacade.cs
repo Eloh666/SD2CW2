@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using CourseworkTwoMetro.Models;
+using CourseworkTwoMetro.Models.Extras;
 using CourseworkTwoMetro.Utils.JSONUtils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -17,11 +18,13 @@ namespace CourseworkTwoMetro.Utils.API
         private static HttpClient _client;
         private static string _jwt;
 
+
         public static void InitialiseApi()
         {
-                _client = new HttpClient {BaseAddress = new Uri("https://coursework2api.herokuapp.com/") };
-                _client.DefaultRequestHeaders.Accept.Clear();
-                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //_client = new HttpClient {BaseAddress = new Uri("https://coursework2api.herokuapp.com/") };
+            _client = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:5000") };
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public static async Task<String> GetData(string path)
@@ -39,8 +42,8 @@ namespace CourseworkTwoMetro.Utils.API
 
         public static void PostData(object data, string path)
         {
-            string json = JsonConvert.SerializeObject(data);
-            Console.WriteLine(json);
+           string json = MyJsonSerializer.Serialize(data);
+           Console.WriteLine(json);
         }
 
         public static async Task<ObservableCollection<Customer>> GetCustomers()
@@ -57,7 +60,7 @@ namespace CourseworkTwoMetro.Utils.API
 
         public static async Task<bool> Login(User user)
         {
-            var json = LowcaseJsonKeysSerializer.Serialize(user);
+            var json = MyJsonSerializer.Serialize(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try
             {
@@ -67,7 +70,6 @@ namespace CourseworkTwoMetro.Utils.API
                 JObject jwt = JObject.Parse(await response.Content.ReadAsStringAsync());
                 _jwt = (string)jwt["access_token"];
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwt);
-                Console.WriteLine(_jwt);
                 return true;
             }
             catch

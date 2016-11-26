@@ -35,7 +35,7 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
-        public string ReferenceNumber
+        public int ReferenceNumber
         {
             get { return Customer.ReferenceNumber; }
             set

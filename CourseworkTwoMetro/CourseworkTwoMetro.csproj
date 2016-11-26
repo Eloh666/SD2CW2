@@ -115,7 +115,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Utils\API\APIFacade.cs" />
     <Compile Include="Utils\JSONUtils\JSONLowerCaseConcractResolver.cs" />
-    <Compile Include="Utils\JSONUtils\LowcaseJSONKeysSerializer.cs" />
+    <Compile Include="Utils\JSONUtils\MyJsonSerializer.cs" />
     <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\DeleteDialogViewModel.cs" />
     <Compile Include="ViewModels\EditCustomerViewModel.cs" />

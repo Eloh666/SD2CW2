@@ -1,16 +1,17 @@
-﻿using CourseworkOneMetro.Models.Utils;
+﻿using System;
+using CourseworkOneMetro.Models.Utils;
 
 namespace CourseworkTwoMetro.Models
 {
     public class Customer : Person
     {
        
-        public string ReferenceNumber { get; set; }
+        public int ReferenceNumber { get; set; }
         public string Address { get; set; }
 
         public Customer(){}
 
-        public Customer(string name, string referenceNumber, string address) : base(name)
+        public Customer(string name, int referenceNumber, string address) : base(name)
         {
             this.ReferenceNumber = referenceNumber;
             this.Address = address;
@@ -18,7 +19,7 @@ namespace CourseworkTwoMetro.Models
 
         public string ValidateReferenceNumber()
         {
-            return ValidationUtilities.ValidateNonEmpty("ReferenceNumber", this.ReferenceNumber);
+            return ValidationUtilities.ValidateNonEmpty("ReferenceNumber", (this.ReferenceNumber.ToString()));
         }
 
         public string ValidateAddress()

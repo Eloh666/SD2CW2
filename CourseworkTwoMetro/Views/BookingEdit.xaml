@@ -39,6 +39,7 @@
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding Customers}"
                         Width="450" Margin="600,25,29,31"
+                        IsReadOnly="True"
                 >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Reference Number" Width="150" Binding="{Binding ReferenceNumber}"/>
@@ -193,6 +194,7 @@
                         ItemsSource="{Binding NewBooking.Guests}"
                         SelectedItem="{Binding SelectedGuest}"
                         Width="450" Margin="605,127,24,109"
+                        IsReadOnly="True"
                 >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Customer Name" Width="149" Binding="{Binding Name}"/>

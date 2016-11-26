@@ -12,6 +12,12 @@ namespace CourseworkTwoMetro.Models.Extras
         {
         }
 
+        public CarHire(DateTime hireStart, DateTime hireEnd) : base("CarHire")
+        {
+            this.HireStart = hireStart;
+            this.HireEnd = hireEnd;
+        }
+
         public override double GetCost(double nights)
         {
             return this.GetCost();

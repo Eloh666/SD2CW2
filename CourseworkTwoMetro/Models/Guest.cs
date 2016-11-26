@@ -1,10 +1,10 @@
-﻿using CourseworkOneMetro.Models.Utils;
+﻿using System;
+using CourseworkOneMetro.Models.Utils;
 
 namespace CourseworkTwoMetro.Models
 {
     public class Guest : Person
     {
-
         public uint Age { get; set; }
         public string PassportNumber { get; set; }
 

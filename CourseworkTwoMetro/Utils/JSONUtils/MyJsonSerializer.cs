@@ -2,12 +2,12 @@
 
 namespace CourseworkTwoMetro.Utils.JSONUtils
 {
-    public class LowcaseJsonKeysSerializer
+    public class MyJsonSerializer
     {
         public static string Serialize(object data)
         {
             var settings = new JsonSerializerSettings();
-            settings.ContractResolver = new JsonLowerCaseConcractResolver();
+            settings.ContractResolver = new JsonCustomContractResolver();
             return JsonConvert.SerializeObject(data, Formatting.Indented, settings);
         }
     }
