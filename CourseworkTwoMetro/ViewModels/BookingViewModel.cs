@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using CourseworkTwoMetro.Models;
@@ -15,16 +16,19 @@ namespace CourseworkTwoMetro.ViewModels
 
         public BookingViewModel(Booking booking)
         {
-            this.Booking = booking;
+            this.Booking = (Booking) booking.Clone();
             _fieldsUseDictionary = new Dictionary<string, bool>();
             this._fieldsUseDictionary.Add("Id", false);
             this._fieldsUseDictionary.Add("ArrivalDate", false);
             this._fieldsUseDictionary.Add("DepartureDate", false);
+            this._fieldsUseDictionary.Add("CustomerId", false);
             this._fieldsUseDictionary.Add("DietaryReqs", false);
             this._fieldsUseDictionary.Add("Dinner", false);
             this._fieldsUseDictionary.Add("CarHire", false);
             this._fieldsUseDictionary.Add("Breakfast", false);
             this._fieldsUseDictionary.Add("Guests", false);
+            this._fieldsUseDictionary.Add("CarHireStart", false);
+            this._fieldsUseDictionary.Add("CarHireEnd", false);
         }
 
         public Booking Booking
@@ -32,7 +36,7 @@ namespace CourseworkTwoMetro.ViewModels
             get { return _booking; }
             set
             {
-                _booking = value;
+                this._booking = (Booking) value.Clone();
                 OnPropertyChangedEvent(null);
             }
         }
@@ -47,6 +51,16 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
+        public int CustomerId
+        {
+            get { return Booking.CustomerId; }
+            set
+            {
+                this.Booking.Id = value;
+                OnPropertyChangedEvent("CustomerId");
+            }
+        }
+
         public DateTime ArrivalDate
         {
             get { return Booking.ArrivalDate; }
@@ -54,7 +68,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.ArrivalDate = value;
                 this._fieldsUseDictionary["ArrivalDate"] = true;
-                OnPropertyChangedEvent("ArrivalDate");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -65,9 +79,43 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.DepartureDate = value;
                 this._fieldsUseDictionary["DepartureDate"] = true;
-                OnPropertyChangedEvent("DepartureDate");
+                OnPropertyChangedEvent(null);
             }
         }
+
+        public DateTime CarHireStart
+        {
+            get {
+                return Booking.CarHire?.HireStart ?? default(DateTime);
+            }
+            set
+            {
+                if (this.CarHire != null)
+                {
+                    Booking.CarHire.HireStart = value;
+                    this._fieldsUseDictionary["CarHireStart"] = true;
+                    OnPropertyChangedEvent(null);
+                }
+            }
+        }
+
+        public DateTime CarHireEnd
+        {
+            get
+            {
+                return Booking.CarHire?.HireEnd ?? default(DateTime);
+            }
+            set
+            {
+                if (this.CarHire != null)
+                {
+                    Booking.CarHire.HireEnd = value;
+                    this._fieldsUseDictionary["CarHireEnd"] = true;
+                    OnPropertyChangedEvent(null);
+                }
+            }
+        }
+
 
         public string DietaryReqs
         {
@@ -76,18 +124,18 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.DietaryReqs = value;
                 this._fieldsUseDictionary["DietaryReqs"] = true;
-                OnPropertyChangedEvent("DietaryReqs");
+                OnPropertyChangedEvent(null);
             }
         }
 
-        public List<Guest> Guests
+        public ObservableCollection<Guest> Guests
         {
             get { return Booking.Guests; }
             set
             {
                 this.Booking.Guests = value;
                 this._fieldsUseDictionary["Guests"] = true;
-                OnPropertyChangedEvent("Guests");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -98,7 +146,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.Dinner = value;
                 this._fieldsUseDictionary["Dinner"] = true;
-                OnPropertyChangedEvent("Dinner");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -109,7 +157,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.CarHire = value;
                 this._fieldsUseDictionary["CarHire"] = true;
-                OnPropertyChangedEvent("CarHire");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -120,9 +168,11 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Booking.Breakfast = value;
                 this._fieldsUseDictionary["Breakfast"] = true;
-                OnPropertyChangedEvent("Breakfast");
+                OnPropertyChangedEvent(null);
             }
         }
+
+        public Dictionary<string, Extra> Extras => Booking.Extras;
 
         public double GetCost => Booking.GetCost;
 
@@ -160,6 +210,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this._fieldsUseDictionary["ArrivalDate"] = true;
                 this._fieldsUseDictionary["DepartureDate"] = true;
+                this._fieldsUseDictionary["Guests"] = true;
 
                 if (ValidationFields.Any(field => GetValidationError(field) != null))
                 {

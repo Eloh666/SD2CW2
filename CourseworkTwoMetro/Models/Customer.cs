@@ -1,9 +1,11 @@
 ﻿using System;
 using CourseworkOneMetro.Models.Utils;
+using CourseworkTwoMetro.Models.Utils;
 
 namespace CourseworkTwoMetro.Models
 {
-    public class Customer : Person
+    [Serializable]
+    public class Customer : Person, ICloneable
     {
        
         public int ReferenceNumber { get; set; }
@@ -25,6 +27,11 @@ namespace CourseworkTwoMetro.Models
         public string ValidateAddress()
         {
             return ValidationUtilities.ValidateNonEmpty("Address", this.Address);
+        }
+
+        public object Clone()
+        {
+            return CloneUtils.DeepClone(this);
         }
 
     }

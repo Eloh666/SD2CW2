@@ -1,5 +1,8 @@
-﻿namespace CourseworkTwoMetro.Models.Extras
+﻿using System;
+
+namespace CourseworkTwoMetro.Models.Extras
 {
+    [Serializable]
     public class Breakfast : Extra
     {
         private const double BreakfastCost = 5;

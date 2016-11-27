@@ -1,27 +1,50 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
+using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class EditGuestViewModel : FormWithSpinnerViewModel, IDataErrorInfo
+    public class EditGuestViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
         // managers singletons
         public WindowsManager Windows { get; }
         public CommandsManager Commands { get; }
 
+        public ObservableCollection<Guest> Guests { get; set; }
+
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
         public string Title { get; set; }
-        public Guest Guest { get; }
-        public EditGuestViewModel(string title, Guest guest = null)
+        public Guest Guest { get; set; }
+        public Guest SelectedGuest { get; set; }
+        public EditGuestViewModel(string title, MainViewModel mainViewModel, ObservableCollection<Guest> guests, Guest guest = null)
         {
+            this.Windows = WindowsManager.Instance(mainViewModel);
+            this.Commands = CommandsManager.Instance(mainViewModel);
             this.Title = title;
-            this.Guest = guest ?? new Guest();
+            if (guest == null)
+            {
+                this.Guest = new Guest();
+                this.SelectedGuest = null;
+            }
+            else
+            {
+                this.Guest = (Guest) guest.Clone();
+                this.SelectedGuest = guest;
+            }
             _fieldsUseDictionary = new Dictionary<string, bool>();
             this._fieldsUseDictionary.Add("Name", false);
             this._fieldsUseDictionary.Add("Age", false);
             this._fieldsUseDictionary.Add("PassportNumber", false);
+            this.Guests = guests;
+        }
+
+        public void AddGuest(Guest guest)
+        {
+            this.Guests.Add(guest);
+            OnPropertyChangedEvent(null);
         }
 
         public string Name
@@ -68,10 +91,7 @@ namespace CourseworkTwoMetro.ViewModels
             "PassportNumber"
         };
 
-        // check the whole attendee for being valid, the dictionary is used
-        // to avoid displaying the validation errors until a field has actually been used
-        // at least once or the user has tried to save/open an extra window
-        public bool IsUserValid
+        public bool IsGuestValid
         {
             get
             {

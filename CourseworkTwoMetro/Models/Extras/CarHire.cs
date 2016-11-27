@@ -2,6 +2,7 @@
 
 namespace CourseworkTwoMetro.Models.Extras
 {
+    [Serializable]
     public class CarHire : Extra
     {
         private const double NightlyCost = 50;

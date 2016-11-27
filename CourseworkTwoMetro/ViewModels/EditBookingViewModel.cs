@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 
@@ -16,24 +17,31 @@ namespace CourseworkTwoMetro.ViewModels
         public ObservableCollection<Customer> Customers { get; }
         public ObservableCollection<Booking> Bookings { get; }
 
-        // wizard page one bindings
-        public Customer NewCustomer { get; set; }
-        public Customer ExistingCustomer { get; set; }
         private bool _newCustomerRadio;
         private bool _existingCustomerRadio;
 
         // wizard page two bindings
-        public Booking NewBooking { get; set; }
+        public BookingViewModel NewBooking { get; set; }
         public Guest NewGuest { get; set; }
         public Guest SelectedGuest { get; set; }
         private bool _carHireSwitch;
         private bool _breakfastSwitch;
         private bool _dinnerSwitch;
         private ObservableCollection<Guest> _currentGestsList;
+        private Customer _existingCustomer;
+        private CustomerViewModel _newCustomer;
 
         // new booking
-        public EditBookingViewModel(string title, MainViewModel mainViewModel)
+        public EditBookingViewModel(string title, MainViewModel mainViewModel, BookingViewModel selectedBooking = null)
         {
+
+            this.NewBooking = selectedBooking ?? new BookingViewModel(new Booking());
+            if (selectedBooking != null)
+            {
+                this.BreakfastSwitch = this.NewBooking.Breakfast != null;
+                this.DinnerSwitch = this.NewBooking.Dinner != null;
+                this.CarHireSwitch = this.NewBooking.CarHire != null;
+            }
             this.Title = title;
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
@@ -41,27 +49,44 @@ namespace CourseworkTwoMetro.ViewModels
             this.Bookings = mainViewModel.MainWindowViewModel.Bookings;
             this.CreateNewCustomer = true;
 
-            if (this.NewBooking == null)
-            {
-                this.NewBooking = new Booking();
-            }          
-            this.NewCustomer = new Customer();
+
+            this.NewCustomer = new CustomerViewModel(new Customer());
             if (this.NewBooking.CustomerId == 0) return;
             foreach (var customer in Customers)
             {
                 if (customer.ReferenceNumber != NewBooking.CustomerId) continue;
                 this.ExistingCustomer = customer;
+                this._existingCustomerRadio = true;
                 break;
+            }
+            OnPropertyChangedEvent(null);
+        }
+
+        public CustomerViewModel NewCustomer
+        {
+            get { return _newCustomer; }
+            set
+            {
+                _newCustomer = value;
+                OnPropertyChangedEvent(null);
             }
         }
 
-        //edit booking
-        public EditBookingViewModel(string title, MainViewModel mainViewModel, Booking selectedBooking) : this(title, mainViewModel)
+        public Customer ExistingCustomer
         {
-            this.NewBooking = selectedBooking;
-            this.ExistingCustomer = null;
-            
+            get { return _existingCustomer; }
+            set
+            {
+                _existingCustomer = value;
+                OnPropertyChangedEvent(null);
+            }
         }
+
+        public bool CanMoveToPageTwo => this._existingCustomerRadio ? this.ExistingCustomer != null : this.NewCustomer.IsCustomerValid;
+        public bool CanMoveToPageThree { get; }
+        public bool CanMoveBackToPageOne { get; }
+        public bool CanMoveBackToPageTwo { get; }
+
 
         public bool DieteryReqsShow => this.BreakfastSwitch || this.DinnerSwitch;
 
@@ -93,7 +118,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _carHireSwitch = value;
-                OnPropertyChangedEvent("CarHireSwitch");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -123,7 +148,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _currentGestsList = value;
-                OnPropertyChangedEvent("CurrentGestsList");
+                OnPropertyChangedEvent(null);
             }
         }
     }

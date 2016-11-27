@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using CourseworkOneMetro.Models.Utils;
 using CourseworkTwoMetro.Models.Extras;
+using CourseworkTwoMetro.Models.Utils;
 
 namespace CourseworkTwoMetro.Models
 {
-    public class Booking
+    [Serializable]
+    public class Booking : ICloneable
     {
         public int Id { get; set; }
         public DateTime ArrivalDate { get; set; }
@@ -17,13 +20,13 @@ namespace CourseworkTwoMetro.Models
         public string DietaryReqs { get; set; }
 
         public int CustomerId { get; set; }
-        public List<Guest> Guests { get; set; }
-        public Dictionary<string, Extra> Extra { get; }
+        public ObservableCollection<Guest> Guests { get; set; }
+        public Dictionary<string, Extra> Extras { get; }
 
         public Booking()
         {
-            this.Extra = new Dictionary<string, Extra> {{"Breakfast", null}, {"Dinner", null}, {"CarHire", null}};
-            this.Guests = new List<Guest>();
+            this.Extras = new Dictionary<string, Extra> {{"Breakfast", null}, {"Dinner", null}, {"CarHire", null}};
+            this.Guests = new ObservableCollection<Guest>();
         }
 
         public Booking(int id, DateTime arrivalDate, DateTime departureDate, int customerId) : base()
@@ -36,20 +39,20 @@ namespace CourseworkTwoMetro.Models
 
         public Dinner Dinner
         {
-            get { return (Dinner)this.Extra["Dinner"]; }
-            set { this.Extra["Dinner"] = value; }
+            get { return (Dinner)this.Extras["Dinner"]; }
+            set { this.Extras["Dinner"] = value; }
         }
 
         public CarHire CarHire
         {
-            get { return (CarHire)this.Extra["CarHire"]; }
-            set { this.Extra["CarHire"] = value; }
+            get { return (CarHire)this.Extras["CarHire"]; }
+            set { this.Extras["CarHire"] = value; }
         }
 
         public Breakfast Breakfast
         {
-            get { return (Breakfast)this.Extra["Breakfast"]; }
-            set { this.Extra["Breakfast"] = value; }
+            get { return (Breakfast)this.Extras["Breakfast"]; }
+            set { this.Extras["Breakfast"] = value; }
         }
 
         public double GetCost
@@ -57,7 +60,7 @@ namespace CourseworkTwoMetro.Models
             get
             {
                 double nights = (this.DepartureDate - this.ArrivalDate).TotalDays;
-                double extras = this.Extra.Sum(entry => entry.Value?.GetCost(nights) ?? 0);
+                double extras = this.Extras.Sum(entry => entry.Value?.GetCost(nights) ?? 0);
                 double bookings = Guests.Sum(guest => (guest.Age < 18 ? 30 : 50) * nights);
                 return extras + bookings;
             }
@@ -93,6 +96,11 @@ namespace CourseworkTwoMetro.Models
         public string ValidateGuestsList()
         {
             return this.Guests.Count == 0 ? "You need at leaast a guest for this booking" : null;
+        }
+
+        public object Clone()
+        {
+            return CloneUtils.DeepClone(this);
         }
 
     }

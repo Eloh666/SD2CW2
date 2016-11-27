@@ -14,7 +14,7 @@ namespace CourseworkTwoMetro.ViewModels
 
         public CustomerViewModel(Customer customer)
         {
-            this.Customer = customer;
+            this.Customer = (Customer) customer.Clone();
             this._fieldsUseDictionary = new Dictionary<string, bool>
             {
                 {"Name", false},
@@ -29,7 +29,7 @@ namespace CourseworkTwoMetro.ViewModels
             get { return _customer; }
             set
             {
-                _customer = value;
+                _customer = (Customer) value.Clone();
                 OnPropertyChangedEvent(null);
             }
         }

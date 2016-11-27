@@ -4,7 +4,9 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:Utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils" x:Class="CourseworkTwoMetro.Views.BookingEdit"
+        xmlns:Utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        x:Class="CourseworkTwoMetro.Views.BookingEdit"
         ResizeMode="NoResize"
         Title="{Binding Title}"
         Height="600"
@@ -22,9 +24,9 @@
                 PageType="Exterior"
                 Title="Welcome to Napier Holiday Villlage"
                 Description="This wizard will walk you through the booking system."
-                CanSelectNextPage="True"
+                CanSelectNextPage="{Binding CanMoveToPageTwo}"
         >
-            <Grid>
+           <Grid>
                 <Controls:MetroProgressBar
                         Minimum="0"
                         Maximum="100"
@@ -38,6 +40,7 @@
                         IsEnabled="{Binding UseExistingCustomer}"
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding Customers}"
+                        SelectedItem="{Binding ExistingCustomer}"
                         Width="450" Margin="600,25,29,31"
                         IsReadOnly="True"
                 >
@@ -48,7 +51,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <TextBox
+                <TextBlock
                         x:Name="Username"
                         Controls:TextBoxHelper.Watermark="Enter your username here..."
                         Controls:TextBoxHelper.ClearTextButton="True"
@@ -58,7 +61,9 @@
                         TextWrapping="Wrap"
                         VerticalAlignment="Top"
                         Width="292"
-                        Text="{Binding NewCustomer.ReferenceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        FontSize="11"
+                        FontStyle="Italic"
+                        Text="Not yet set. Will be provided by the database."
                         IsEnabled="{Binding CreateNewCustomer}"
                 />
                 <TextBox
@@ -199,7 +204,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Customer Name" Width="149" Binding="{Binding Name}"/>
                         <DataGridTextColumn Header="Age" Width="100" Binding="{Binding Age}"/>
-                        <DataGridTextColumn Header="Passport Number" Width="200" Binding="{Binding Passport}"/>
+                        <DataGridTextColumn Header="Passport Number" Width="200" Binding="{Binding PassportNumber}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <xctk:DateTimePicker
@@ -212,6 +217,7 @@
                         UpdateValueOnEnterKey="True"
                         Margin="29,85,900,331"
                         Text="{Binding NewBooking.ArrivalDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Value="{Binding NewBooking.ArrivalDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
                 <xctk:DateTimePicker
                         x:Name="VacationTimeEndPicker"
@@ -223,14 +229,18 @@
                         UpdateValueOnEnterKey="True"
                         Margin="214,85,715,331"
                         Text="{Binding NewBooking.DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Value="{Binding NewBooking.DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
-                <Controls:ToggleSwitch x:Name="ExtraCarSwitch"
-                                       Content="Car Hire"
-                                       HorizontalAlignment="Left"
-                                       Margin="29,145,0,0"
-                                       Width="140"
-                                       VerticalAlignment="Top"
-                                       IsChecked="{Binding CarHireSwitch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <CheckBox x:Name="ExtraCarSwitch"
+                         Content="Car Hire"
+                         HorizontalAlignment="Left"
+                         Margin="29,145,0,0"
+                         Width="140"
+                         VerticalAlignment="Top"
+                         IsChecked="{Binding CarHireSwitch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Command="{Binding Commands.ToggleCarHireCommand}"
+                         CommandParameter="{Binding}"
+                                       
                 />
                 <xctk:DateTimePicker
                         x:Name="HireTimeStartPicker"
@@ -242,6 +252,8 @@
                         UpdateValueOnEnterKey="True"
                         Margin="25,205,900,211"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
+                        Text="{Binding NewBooking.CarHireStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Value="{Binding NewBooking.CarHireStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
                 <xctk:DateTimePicker
                         x:Name="HireTimeEndPicker"
@@ -253,8 +265,10 @@
                         UpdateValueOnEnterKey="True"
                         Margin="200,205,725,211"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
+                        Text="{Binding NewBooking.CarHireEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Value="{Binding NewBooking.CarHireEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
-                <Controls:ToggleSwitch
+                <CheckBox
                         x:Name="ExtraBreakFast"
                         Content="Breakfast"
                         HorizontalAlignment="Left"
@@ -262,8 +276,10 @@
                         Width="140"
                         VerticalAlignment="Top"
                         IsChecked="{Binding BreakfastSwitch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Command="{Binding Commands.ToggleBreakfastCommand}"
+                        CommandParameter="{Binding}"
                 />
-                <Controls:ToggleSwitch
+                <CheckBox
                         x:Name="ExtraDinner"
                         Content="Dinner"
                         HorizontalAlignment="Left"
@@ -271,6 +287,8 @@
                         Width="140"
                         VerticalAlignment="Top"
                         IsChecked="{Binding DinnerSwitch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Command="{Binding Commands.ToggleDinnerCommand}"
+                        CommandParameter="{Binding}"
                 />
                 <TextBox
                         x:Name="DietaryRequirements"
@@ -347,7 +365,7 @@
                         Width="40"
                         Height="40"
                         Style="{DynamicResource MetroCircleButtonStyle}"
-                        Command="{Binding Windows.DeleteGuestCommand}"
+                        Command="{Binding Commands.SubmitDeleteGuestCommand}"
                         CommandParameter="{Binding}"
                 />
                 <Button
@@ -434,6 +452,99 @@
                         Margin="0,430,0,0"
                         Foreground="OrangeRed"
                 />
+                <TextBlock
+                    Text="You can review the booking here."
+                    TextWrapping="Wrap"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Foreground="OrangeRed"
+                    Margin="30,124,714,281"
+                />
+                <TextBlock
+                    Text="If you are happy with your choices please proceed to save.."
+                    TextWrapping="Wrap"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Foreground="OrangeRed"
+                    Margin="29,155,714,226"
+                />
+                <Button
+                    x:Name="SaveBooking"
+                    Width="75"
+                    Height="75"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                    Foreground="LimeGreen"
+                    Margin="120,215,884,0">
+                    <Rectangle Width="30"
+                        Height="30">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+                                Visual="{iconPacks:PackIconEntypo Save}"       
+                            />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
+                <Button
+                    x:Name="CloseWindow"
+                    Width="75"
+                    Height="75"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                    Foreground="Red"
+                    Margin="29,215,975,0">
+                    <Rectangle Width="30"
+                        Height="30">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+                                Visual="{iconPacks:PackIconModern Close}"       
+                            />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    Height="350"
+                    VerticalAlignment="Top"
+                    Width="295" Margin="415,60,0,0"
+                >
+                    <Label x:Name="ItemIDLabel" FontSize="11" Content="{Binding NewBooking.IdString}" />
+                    <Label x:Name="BookingStartLabel" FontSize="11" Content="{Binding NewBooking.ArrivalDateString}" />
+                    <Label x:Name="BookingEndLabel" FontSize="11" Content="{Binding NewBooking.DepartureDateString}" />
+                    <Separator Background="Transparent" />
+                    <Grid>
+                        <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" Width="100" Margin="0,0,139,0" IsEnabled="False" IsChecked="{Binding NewBooking.IsBreakfastSelected, Mode=OneWay}"/>
+                        <CheckBox x:Name="DinnerCheckbox" Content="Dinner" Width="100" Margin="100,0,32,0" IsEnabled="False" IsChecked="{Binding NewBooking.IsDinnerSelected, Mode=OneWay}" />
+                    </Grid>
+                    <Label x:Name="DietaryLabel" FontSize="11" Content="{Binding NewBooking.DietaryReqsString}" />
+                    <Separator Background="Transparent" />
+                    <Grid>
+                        <CheckBox x:Name="CarCheckBox" Content="CarHire" HorizontalAlignment="Left" Width="100" Margin="30,0,0,0" IsEnabled="False" IsChecked="{Binding NewBooking.IsCarHireSelected, Mode=OneWay}"/>
+                    </Grid>
+                    <Separator Background="Transparent" />
+                    <Label x:Name="CarHireStartLabel" FontSize="11" Height="40" Content="{Binding NewBooking.HireStartString}" />
+                    <Label x:Name="CarHireEndLabel" FontSize="11" Content="{Binding NewBooking.HireEndString}" />
+                    <Separator Background="Transparent" />
+                    <Label x:Name="Guests" FontSize="11" Content="{Binding NewBooking.GuestsNumberString}" />
+                    <Separator Background="Transparent" />
+                    <Label x:Name="Cost" FontSize="11" Content="{Binding NewBooking.GetCostString}" />
+                </StackPanel>
+                <DataGrid
+                        x:Name="GuestsTableRecap"
+                        BorderThickness="1"
+                        IsEnabled="True"
+                        AutoGenerateColumns="False"
+                        BorderBrush="DodgerBlue"
+                        ItemsSource="{Binding NewBooking.Guests}" Margin="735,60,44,26"
+                        IsReadOnly="True"
+                        Width="300"
+                >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Width="99" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Age" Width="99" Binding="{Binding Age}"/>
+                        <DataGridTextColumn Header="Passport" Width="99" Binding="{Binding PassportNumber}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </xctk:WizardPage>
     </xctk:Wizard>

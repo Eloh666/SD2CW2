@@ -29,7 +29,7 @@ namespace CourseworkTwoMetro.Managers
             this._mainViewModel = mainViewModel;
             this.NewCustomerCommand = new RelayCommand<MainWindowViewModel>(this.NewCustomer);
             this.NewBookingCommand = new RelayCommand<MainWindowViewModel>(this.NewBooking);
-            this.NewGuestCommand = new RelayCommand<EditBookingViewModel>(this.NewGuest);
+            this.NewGuestCommand = new RelayCommand<EditBookingViewModel>(this.NewGuest, this.CanAddGuest);
 
             this.EditMainTabItemCommand = new RelayCommand<MainWindowViewModel>(this.EditMainTabItem, this.CanModifyItem);
             this.DeleteMainTabItemCommand = new RelayCommand<MainWindowViewModel>(this.DeleteMainTabItem, this.CanModifyItem);
@@ -69,7 +69,7 @@ namespace CourseworkTwoMetro.Managers
             {
                 case 0:
                     {
-                        BookingEdit customerEditWindow = new BookingEdit { DataContext = new EditBookingViewModel("Edit booking", this._mainViewModel, mainWindowViewModel.SelectedBooking) };
+                        BookingEdit customerEditWindow = new BookingEdit { DataContext = new EditBookingViewModel("Edit booking", this._mainViewModel, mainWindowViewModel.BookingViewModel) };
                         customerEditWindow.ShowDialog();
                     }
                     break;
@@ -129,13 +129,13 @@ namespace CourseworkTwoMetro.Managers
 
         private void NewGuest(EditBookingViewModel bookingViewModel)
         {
-            GuestEdit guestEdit = new GuestEdit { DataContext = new EditGuestViewModel("Add new guest", bookingViewModel.SelectedGuest) };
+            GuestEdit guestEdit = new GuestEdit { DataContext = new EditGuestViewModel("Add new guest", this._mainViewModel, bookingViewModel.NewBooking.Guests) };
             guestEdit.ShowDialog();
         }
 
         private void EditGuest(EditBookingViewModel bookingViewModel)
         {
-            GuestEdit guestEdit = new GuestEdit { DataContext = new EditGuestViewModel("Edit guest", bookingViewModel.SelectedGuest) };
+            GuestEdit guestEdit = new GuestEdit { DataContext = new EditGuestViewModel("Edit guest", this._mainViewModel, bookingViewModel.NewBooking.Guests, bookingViewModel.SelectedGuest) };
             guestEdit.ShowDialog();
         }
 
@@ -143,6 +143,11 @@ namespace CourseworkTwoMetro.Managers
         {
             DeleteConfirmationDialog deleteDialog = new DeleteConfirmationDialog { DataContext = new DeleteDialogViewModel("Remove Guest", this._mainViewModel) };
             deleteDialog.ShowDialog();
+        }
+
+        private bool CanAddGuest(EditBookingViewModel bookingViewModel)
+        {
+            return bookingViewModel?.NewBooking != null && bookingViewModel.NewBooking.Guests.Count < 4;
         }
     }
 }

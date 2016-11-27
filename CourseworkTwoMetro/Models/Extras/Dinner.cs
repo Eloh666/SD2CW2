@@ -1,5 +1,8 @@
-﻿namespace CourseworkTwoMetro.Models.Extras
+﻿using System;
+
+namespace CourseworkTwoMetro.Models.Extras
 {
+    [Serializable]
     public class Dinner : Extra
     {
         public Dinner() : base("Dinner")

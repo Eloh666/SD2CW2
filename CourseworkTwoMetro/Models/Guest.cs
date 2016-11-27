@@ -1,9 +1,11 @@
 ﻿using System;
 using CourseworkOneMetro.Models.Utils;
+using CourseworkTwoMetro.Models.Utils;
 
 namespace CourseworkTwoMetro.Models
 {
-    public class Guest : Person
+    [Serializable]
+    public class Guest : Person, ICloneable
     {
         public uint Age { get; set; }
         public string PassportNumber { get; set; }
@@ -27,5 +29,9 @@ namespace CourseworkTwoMetro.Models
             return ValidationUtilities.ValidateNonEmpty("PassportNumber", this.PassportNumber);
         }
 
+        public object Clone()
+        {
+            return CloneUtils.DeepClone(this);
+        }
     }
 }

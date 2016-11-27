@@ -110,9 +110,11 @@
     <Compile Include="Models\Extras\Breakfast.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Extras\Extra.cs" />
+    <Compile Include="Models\Extras\ExtrasFactory.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Utils\CloneUtils.cs" />
     <Compile Include="Utils\API\APIFacade.cs" />
     <Compile Include="Utils\JSONUtils\JSONLowerCaseConcractResolver.cs" />
     <Compile Include="Utils\JSONUtils\MyJsonSerializer.cs" />
@@ -147,7 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\IconsNonShared.xaml">
+    <Page Include="Utils\JSONUtils\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

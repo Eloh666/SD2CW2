@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using CourseworkTwoMetro.Models;
+using CourseworkTwoMetro.Models.Extras;
 using CourseworkTwoMetro.Utils.API;
 using CourseworkTwoMetro.Utils.RelayCommands;
 using CourseworkTwoMetro.ViewModels;
@@ -22,12 +23,15 @@ namespace CourseworkTwoMetro.Managers
 
         public RelayCommand<EditCustomerViewModel> SubmitCustomerCommand { get; private set; }
         public RelayCommand<EditBookingViewModel> SubmitBookingCommand { get; private set; }
-        public RelayCommand<EditGuestViewModel> SubmitGuestommand { get; private set; }
+        public RelayCommand<EditGuestViewModel> SubmitGuestCommand { get; private set; }
 
         public RelayCommand<DeleteDialogViewModel> DeleteSelectedMainWindowItemCommand { get; private set; }
-        public RelayCommand<EditBookingViewModel> SubmitDeleteGuestommand { get; private set; }
+        public RelayCommand<EditBookingViewModel> SubmitDeleteGuestCommand { get; private set; }
         public RelayCommand<MainWindowViewModel> RefreshListsCommand { get; private set; }
         public RelayCommand<MainWindowViewModel> UpdateSelectedBookingViewModelCommand { get; private set; }
+        public RelayCommand<EditBookingViewModel> ToggleBreakfastCommand { get; private set; }
+        public RelayCommand<EditBookingViewModel> ToggleDinnerCommand { get; private set; }
+        public RelayCommand<EditBookingViewModel> ToggleCarHireCommand { get; private set; }
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -42,12 +46,16 @@ namespace CourseworkTwoMetro.Managers
 
             this.SubmitCustomerCommand = new RelayCommand<EditCustomerViewModel>(this.SubmitCustomer);
             this.SubmitBookingCommand = new RelayCommand<EditBookingViewModel>(this.SubmitBooking);
-            this.SubmitGuestommand = new RelayCommand<EditGuestViewModel>(this.SubmitGuest);
+            this.SubmitGuestCommand = new RelayCommand<EditGuestViewModel>(this.SubmitGuest);
 
             this.DeleteSelectedMainWindowItemCommand = new RelayCommand<DeleteDialogViewModel>(this.DeleteSelectedMainWindowItem);
             this.UpdateSelectedBookingViewModelCommand = new RelayCommand<MainWindowViewModel>(this.UpdateSelectedBookingViewModel);
 
-            this.SubmitDeleteGuestommand = new RelayCommand<EditBookingViewModel>(this.SubmitDeleteGuest);
+            this.SubmitDeleteGuestCommand = new RelayCommand<EditBookingViewModel>(this.SubmitDeleteGuest, this.CanDeleteGuest);
+
+            this.ToggleBreakfastCommand = new RelayCommand<EditBookingViewModel>(this.ToggleBreakfast);
+            this.ToggleDinnerCommand = new RelayCommand<EditBookingViewModel>(this.ToggleDinner);
+            this.ToggleCarHireCommand = new RelayCommand<EditBookingViewModel>(this.ToggleCarHire);
         }
 
         public async void RefreshLists(MainWindowViewModel mainWindowViewModel)
@@ -208,7 +216,6 @@ namespace CourseworkTwoMetro.Managers
                                     }
                                 }
                             }
-                            selectedCustomer = null;
                         }
                         break;
                 }
@@ -222,7 +229,28 @@ namespace CourseworkTwoMetro.Managers
             deleteDialogViewModel.Loading = false;
         }
 
+        private void ToggleBreakfast(EditBookingViewModel bookingViewModel)
+        {
+            bool status = bookingViewModel.BreakfastSwitch;
+            this.ToggleExtra(bookingViewModel.NewBooking, "Breakfast", status);
+        }
 
+        private void ToggleDinner(EditBookingViewModel bookingViewModel)
+        {
+            bool status = bookingViewModel.DinnerSwitch;
+            this.ToggleExtra(bookingViewModel.NewBooking, "Dinner", status);
+        }
+
+        private void ToggleCarHire(EditBookingViewModel bookingViewModel)
+        {
+            bool status = bookingViewModel.CarHireSwitch;
+            this.ToggleExtra(bookingViewModel.NewBooking, "CarHire", status);
+        }
+
+        private void ToggleExtra(BookingViewModel bookingViewModel, string extraType, bool turnItOn)
+        {
+            bookingViewModel.Extras[extraType] = turnItOn ? ExtrasFactory.CreateExtra(extraType) : null;
+        }
 
 
         private void SubmitBooking(EditBookingViewModel bookingViewModel)
@@ -230,19 +258,52 @@ namespace CourseworkTwoMetro.Managers
 
         }
 
-        private void SubmitDeleteBooking(MainWindowViewModel mainWindowViewModel)
-        {
-
-        }
-
         private void SubmitGuest(EditGuestViewModel editGuestViewModel)
         {
+            Guest editedGuest = editGuestViewModel.Guest;
+            if (!editGuestViewModel.IsGuestValid)
+            {
+                _dialogCoordinator.ShowMessageAsync(editGuestViewModel, "Cannot editd", "Cannot add or edit the current guest. Some of the vields are invalid.");
+                return;
+            }
+            ObservableCollection<Guest> guests = editGuestViewModel.Guests;
+            Guest originalGuest = editGuestViewModel.SelectedGuest;
+            if (originalGuest != null)
+            {
+                for (int i = 0; i < guests.Count; i++)
+                {
+                    if (guests[i] == originalGuest)
+                    {
+                        guests[i] = editedGuest;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                editGuestViewModel.AddGuest(editedGuest);
+            }
+            Window currentDialog = Application.Current.Windows.OfType<GuestEdit>().SingleOrDefault(w => w.IsActive);
+            CloseWindow(currentDialog);
+        }
 
+        private bool CanDeleteGuest(EditBookingViewModel bookingViewModel)
+        {
+            return bookingViewModel?.SelectedGuest != null;
         }
 
         private void SubmitDeleteGuest(EditBookingViewModel bookingViewModel)
         {
-
+            var guests = bookingViewModel.NewBooking.Guests;
+            for (int i = 0; i < guests.Count; i++)
+            {
+                if (guests[i] == bookingViewModel.SelectedGuest)
+                {
+                    bookingViewModel.SelectedGuest = null;
+                    guests.RemoveAt(i);
+                    break;
+                }
+            }
         }
     }
 }
