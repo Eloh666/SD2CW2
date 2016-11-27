@@ -26,6 +26,8 @@ namespace CourseworkTwoMetro.Managers
 
         public RelayCommand<DeleteDialogViewModel> DeleteSelectedMainWindowItemCommand { get; private set; }
         public RelayCommand<EditBookingViewModel> SubmitDeleteGuestommand { get; private set; }
+        public RelayCommand<MainWindowViewModel> RefreshListsCommand { get; private set; }
+        public RelayCommand<MainWindowViewModel> UpdateSelectedBookingViewModelCommand { get; private set; }
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -36,15 +38,54 @@ namespace CourseworkTwoMetro.Managers
             this._dialogCoordinator = DialogCoordinator.Instance;
             this.LoginCommand = new RelayCommand<LoginWindow>(Login);
             this.CloseWindowCommand = new RelayCommand<Window>(this.CloseWindow);
+            this.RefreshListsCommand = new RelayCommand<MainWindowViewModel>(this.RefreshLists);
 
             this.SubmitCustomerCommand = new RelayCommand<EditCustomerViewModel>(this.SubmitCustomer);
             this.SubmitBookingCommand = new RelayCommand<EditBookingViewModel>(this.SubmitBooking);
             this.SubmitGuestommand = new RelayCommand<EditGuestViewModel>(this.SubmitGuest);
 
             this.DeleteSelectedMainWindowItemCommand = new RelayCommand<DeleteDialogViewModel>(this.DeleteSelectedMainWindowItem);
+            this.UpdateSelectedBookingViewModelCommand = new RelayCommand<MainWindowViewModel>(this.UpdateSelectedBookingViewModel);
 
             this.SubmitDeleteGuestommand = new RelayCommand<EditBookingViewModel>(this.SubmitDeleteGuest);
         }
+
+        public async void RefreshLists(MainWindowViewModel mainWindowViewModel)
+        {
+            mainWindowViewModel.Loading = true;
+            try
+            {
+                mainWindowViewModel.Customers = await ApiFacade.GetCustomers();
+                mainWindowViewModel.Bookings = await ApiFacade.GetBookings();
+                mainWindowViewModel.LoadingFailed = false;
+            }
+            catch
+            {
+                mainWindowViewModel.LoadingFailed = true;
+            }
+            finally
+            {
+                mainWindowViewModel.Loading = false;
+            }
+        }
+
+        private void UpdateSelectedBookingViewModel(MainWindowViewModel mainWindowViewModel)
+        {
+            var selectedBooking = mainWindowViewModel.SelectedBooking;
+            if (selectedBooking == null)
+            {
+                mainWindowViewModel.BookingViewModel = null;
+            }
+            else if (mainWindowViewModel.BookingViewModel == null)
+            {
+                mainWindowViewModel.BookingViewModel = new BookingViewModel(selectedBooking);
+            }
+            else
+            {
+                mainWindowViewModel.BookingViewModel.Booking = selectedBooking;
+            }
+        }
+
 
         // instance method for the singleton class
         public static CommandsManager Instance(MainViewModel mainWinReference)
@@ -130,6 +171,7 @@ namespace CourseworkTwoMetro.Managers
             Window currentDialog = Application.Current.Windows.OfType<DeleteConfirmationDialog>().SingleOrDefault(w => w.IsActive);
             try
             {
+                deleteDialogViewModel.Loading = true;
                 var deleted = false;
                 switch (mainWindowViewModel.SelectedTabNumber)
                 {
@@ -177,7 +219,11 @@ namespace CourseworkTwoMetro.Managers
             {
                 await _dialogCoordinator.ShowMessageAsync(deleteDialogViewModel, "Delete Failed", "Something went wrong in trying to delete the item.");
             }
+            deleteDialogViewModel.Loading = false;
         }
+
+
+
 
         private void SubmitBooking(EditBookingViewModel bookingViewModel)
         {

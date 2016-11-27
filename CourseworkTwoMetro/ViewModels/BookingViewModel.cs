@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using CourseworkTwoMetro.Models;
 using CourseworkTwoMetro.Models.Extras;
 using CourseworkTwoMetro.ViewModels.Utils;
@@ -9,8 +10,8 @@ namespace CourseworkTwoMetro.ViewModels
 {
     public class BookingViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
-        public Booking Booking { get; set; }
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        private Booking _booking;
 
         public BookingViewModel(Booking booking)
         {
@@ -24,6 +25,16 @@ namespace CourseworkTwoMetro.ViewModels
             this._fieldsUseDictionary.Add("CarHire", false);
             this._fieldsUseDictionary.Add("Breakfast", false);
             this._fieldsUseDictionary.Add("Guests", false);
+        }
+
+        public Booking Booking
+        {
+            get { return _booking; }
+            set
+            {
+                _booking = value;
+                OnPropertyChangedEvent(null);
+            }
         }
 
         public int Id
@@ -115,6 +126,22 @@ namespace CourseworkTwoMetro.ViewModels
 
         public double GetCost => Booking.GetCost;
 
+        public bool IsBreakfastSelected => this.Booking.Breakfast != null;
+        public bool IsDinnerSelected => this.Booking.Dinner != null;
+        public bool IsCarHireSelected => this.Booking.CarHire != null;
+
+        public string IdString => "Booking ID: " + this.Id;
+        public string ArrivalDateString => "Arrival Date: " + this.ArrivalDate;
+        public string DepartureDateString => "Departure Date: " + this.DepartureDate;
+        public string DietaryReqsString => "Dietary Requirements: " + this.DietaryReqs;
+
+        public string GuestsNumberString => "Number of guests: " + this.Guests.Count;
+
+        public string HireStartString => "Hire Start: " + CarHire?.HireStart;
+        public string HireEndString => "Hire End: " + CarHire?.HireEnd;
+
+        public string GetCostString => "Total due: £" + Booking.GetCost;
+
         string IDataErrorInfo.Error => null;
         string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
 
@@ -133,13 +160,10 @@ namespace CourseworkTwoMetro.ViewModels
                 this._fieldsUseDictionary["ArrivalDate"] = true;
                 this._fieldsUseDictionary["DepartureDate"] = true;
 
-                foreach (string field in ValidationFields)
+                if (ValidationFields.Any(field => GetValidationError(field) != null))
                 {
-                    if (GetValidationError(field) != null)
-                    {
-                        OnPropertyChangedEvent(null);
-                        return false;
-                    }
+                    OnPropertyChangedEvent(null);
+                    return false;
                 }
                 OnPropertyChangedEvent(null);
                 return true;

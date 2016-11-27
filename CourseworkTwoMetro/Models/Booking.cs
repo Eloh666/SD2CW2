@@ -56,7 +56,7 @@ namespace CourseworkTwoMetro.Models
         {
             get
             {
-                double nights = (this.ArrivalDate - this.DepartureDate).TotalDays;
+                double nights = (this.DepartureDate - this.ArrivalDate).TotalDays;
                 double extras = this.Extra.Sum(entry => entry.Value?.GetCost(nights) ?? 0);
                 double bookings = Guests.Sum(guest => (guest.Age < 18 ? 30 : 50) * nights);
                 return extras + bookings;

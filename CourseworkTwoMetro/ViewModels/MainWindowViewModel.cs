@@ -18,32 +18,24 @@ namespace CourseworkTwoMetro.ViewModels
         private Customer _selectedCustomer;
         private ObservableCollection<Booking> _bookings;
         private Booking _selectedBooking;
+        private BookingViewModel _bookingViewModel;
         public int SelectedTabNumber { get; set; }
 
         public MainWindowViewModel(MainViewModel mainViewModel)
         {
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
-            this.RefreshLists();
+            this.Commands.RefreshLists(this);
         }
 
-        public async void RefreshLists()
+        public BookingViewModel BookingViewModel
         {
-            this.Loading = true;
-            try
+            get { return _bookingViewModel; }
+            set
             {
-                this.Customers = await ApiFacade.GetCustomers();
-                this.Bookings = await ApiFacade.GetBookings();
-                this.LoadingFailed = false;
-            }
-            catch
-            {
-                this.LoadingFailed = true;
-            }
-            finally
-            {
-                this.Loading = false;
+                _bookingViewModel = value;
                 OnPropertyChangedEvent(null);
+
             }
         }
 
@@ -53,7 +45,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this._selectedCustomer = value;
-                OnPropertyChangedEvent("Customer");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -66,7 +58,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this._selectedBooking = value;
-                OnPropertyChangedEvent("Booking");
+                OnPropertyChangedEvent(null);
             }
         }
 
@@ -92,5 +84,7 @@ namespace CourseworkTwoMetro.ViewModels
                 OnPropertyChangedEvent("Bookings");
             }
         }
+
+        public bool DisplayStockPanel => this.SelectedBooking != null && this.NotLoading;
     }
 }
