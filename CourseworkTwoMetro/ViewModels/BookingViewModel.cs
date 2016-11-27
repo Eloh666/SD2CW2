@@ -133,7 +133,8 @@ namespace CourseworkTwoMetro.ViewModels
         public string IdString => "Booking ID: " + this.Id;
         public string ArrivalDateString => "Arrival Date: " + this.ArrivalDate;
         public string DepartureDateString => "Departure Date: " + this.DepartureDate;
-        public string DietaryReqsString => "Dietary Requirements: " + this.DietaryReqs;
+
+        public string DietaryReqsString => string.IsNullOrEmpty(this.DietaryReqs) ? "Dietary Requirements: None" : "Dietary Requirements: " + this.DietaryReqs;
 
         public string GuestsNumberString => "Number of guests: " + this.Guests.Count;
 
