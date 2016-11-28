@@ -181,15 +181,15 @@ namespace CourseworkTwoMetro.ViewModels
         public bool IsCarHireSelected => this.Booking.CarHire != null;
 
         public string IdString => "Booking ID: " + this.Id;
-        public string ArrivalDateString => "Arrival Date: " + this.ArrivalDate;
-        public string DepartureDateString => "Departure Date: " + this.DepartureDate;
+        public string ArrivalDateString => "Arrival Date: " + this.Booking.StartDate;
+        public string DepartureDateString => "Departure Date: " + this.Booking.EndDate;
 
         public string DietaryReqsString => string.IsNullOrEmpty(this.DietaryReqs) ? "Dietary Requirements: None" : "Dietary Requirements: " + this.DietaryReqs;
 
         public string GuestsNumberString => "Number of guests: " + this.Guests.Count;
 
-        public string HireStartString => "Hire Start: " + CarHire?.HireStart;
-        public string HireEndString => "Hire End: " + CarHire?.HireEnd;
+        public string HireStartString => "Hire Start: " + CarHire?.StartDate;
+        public string HireEndString => "Hire End: " + CarHire?.EndDate;
 
         public string GetCostString => "Total due: £" + Booking.GetCost;
 

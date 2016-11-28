@@ -5,12 +5,14 @@ namespace CourseworkTwoMetro.Models.Extras
     [Serializable]
     public class CarHire : Extra
     {
-        private const double NightlyCost = 50;
-        public DateTime HireStart { get; set; }
-        public DateTime HireEnd { get; set; }
+        private DateTime _hireStart;
+        private DateTime _hireEnd;
 
         public CarHire() : base("CarHire")
         {
+            HireStart = DateTime.Today;
+            HireEnd = DateTime.Today.AddDays(1);
+            this.NightlyCost = 50;
         }
 
         public CarHire(DateTime hireStart, DateTime hireEnd) : base("CarHire")
@@ -19,7 +21,23 @@ namespace CourseworkTwoMetro.Models.Extras
             this.HireEnd = hireEnd;
         }
 
-        public override double GetCost(double nights)
+        public DateTime HireStart
+        {
+            get { return _hireStart.Date; }
+            set { _hireStart = value; }
+        }
+
+        public DateTime HireEnd
+        {
+            get { return _hireEnd.Date; }
+            set { _hireEnd = value; }
+        }
+
+        public string StartDate => _hireStart.Date.ToString("d");
+
+        public string EndDate => _hireEnd.Date.ToString("d");
+
+        public override double GetCost(double nights, int guests)
         {
             return this.GetCost();
         }

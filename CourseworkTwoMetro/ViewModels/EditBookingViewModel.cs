@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CourseworkTwoMetro.Managers;
 using CourseworkTwoMetro.Models;
 
 namespace CourseworkTwoMetro.ViewModels
 {
-    public class EditBookingViewModel : FormWithSpinnerViewModel
+    public class EditBookingViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
         public string Title { get; }
 
@@ -20,8 +22,11 @@ namespace CourseworkTwoMetro.ViewModels
         private bool _newCustomerRadio;
         private bool _existingCustomerRadio;
 
+        private readonly Dictionary<string, bool> _fieldsUseDictionary;
+
         // wizard page two bindings
         public BookingViewModel NewBooking { get; set; }
+        public Booking OriginalBooking { get; set; }
         public Guest NewGuest { get; set; }
         public Guest SelectedGuest { get; set; }
         private bool _carHireSwitch;
@@ -34,8 +39,13 @@ namespace CourseworkTwoMetro.ViewModels
         // new booking
         public EditBookingViewModel(string title, MainViewModel mainViewModel, BookingViewModel selectedBooking = null)
         {
-
+            this._fieldsUseDictionary = new Dictionary<string, bool>
+            {
+                {"Name", false},
+                {"Address", false}
+            };
             this.NewBooking = selectedBooking ?? new BookingViewModel(new Booking());
+            this.OriginalBooking = selectedBooking?.Booking;
             if (selectedBooking != null)
             {
                 this.BreakfastSwitch = this.NewBooking.Breakfast != null;
@@ -62,6 +72,28 @@ namespace CourseworkTwoMetro.ViewModels
             OnPropertyChangedEvent(null);
         }
 
+        public string Name
+        {
+            get { return this._newCustomer.Name; }
+            set
+            {
+                this._newCustomer.Name = value;
+                this._fieldsUseDictionary["Name"] = true;
+                OnPropertyChangedEvent(null);
+            }
+        }
+
+        public string Address
+        {
+            get { return this._newCustomer.Address; }
+            set
+            {
+                this._newCustomer.Address = value;
+                this._fieldsUseDictionary["Name"] = true;
+                OnPropertyChangedEvent(null);
+            }
+        }
+
         public CustomerViewModel NewCustomer
         {
             get { return _newCustomer; }
@@ -83,9 +115,9 @@ namespace CourseworkTwoMetro.ViewModels
         }
 
         public bool CanMoveToPageTwo => this._existingCustomerRadio ? this.ExistingCustomer != null : this.NewCustomer.IsCustomerValid;
-        public bool CanMoveToPageThree { get; }
-        public bool CanMoveBackToPageOne { get; }
-        public bool CanMoveBackToPageTwo { get; }
+
+        public bool CanMoveBackToPageTwo => !this.CanFinish;
+        public bool CanFinish => this.LoadingSuccess || this.LoadingFailed;
 
 
         public bool DieteryReqsShow => this.BreakfastSwitch || this.DinnerSwitch;
@@ -150,6 +182,59 @@ namespace CourseworkTwoMetro.ViewModels
                 _currentGestsList = value;
                 OnPropertyChangedEvent(null);
             }
+        }
+
+        string IDataErrorInfo.Error => null;
+        string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
+
+        // fields that require validation
+        private static readonly string[] ValidationFields =
+        {
+            "Name",
+            "Address",
+        };
+
+        public bool IsCustomerValid
+        {
+            get
+            {
+                this._fieldsUseDictionary["Name"] = true;
+                this._fieldsUseDictionary["Address"] = true;
+
+                foreach (string field in ValidationFields)
+                {
+                    if (GetValidationError(field) != null)
+                    {
+                        OnPropertyChangedEvent(null);
+                        return false;
+                    }
+                }
+                OnPropertyChangedEvent(null);
+                return true;
+            }
+        }
+
+        // validates fields based on the requirements of the model
+        private string GetValidationError(string fieldName)
+        {
+            if (fieldName != "Name" && fieldName != "Address")
+            {
+                return null;
+            }
+            string error = null;
+            if (this._fieldsUseDictionary != null && this._fieldsUseDictionary[fieldName])
+            {
+                switch (fieldName)
+                {
+                    case "Name":
+                        error = this.NewCustomer.Customer.ValidateName();
+                        break;
+                    case "Address":
+                        error = this.NewCustomer.Customer.ValidateAddress();
+                        break;
+                }
+            }
+            return error;
         }
     }
 }

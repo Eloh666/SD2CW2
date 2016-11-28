@@ -19,13 +19,23 @@ namespace CourseworkTwoMetro.ViewModels
         private ObservableCollection<Booking> _bookings;
         private Booking _selectedBooking;
         private BookingViewModel _bookingViewModel;
-        public int SelectedTabNumber { get; set; }
+        private int _selectedTabNumber;
 
         public MainWindowViewModel(MainViewModel mainViewModel)
         {
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
             this.Commands.RefreshLists(this);
+        }
+
+        public int SelectedTabNumber
+        {
+            get { return _selectedTabNumber; }
+            set
+            {
+                _selectedTabNumber = value;
+                OnPropertyChangedEvent(null);
+            }
         }
 
         public BookingViewModel BookingViewModel
@@ -35,7 +45,6 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 _bookingViewModel = value;
                 OnPropertyChangedEvent(null);
-
             }
         }
 
@@ -85,6 +94,6 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
-        public bool DisplayStockPanel => this.SelectedBooking != null && this.NotLoading;
+        public bool DisplaySidePanel => this.SelectedBooking != null && this.NotLoading && this.SelectedTabNumber == 0;
     }
 }

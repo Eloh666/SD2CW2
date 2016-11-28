@@ -31,18 +31,20 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this._loadingFailed = value;
-                OnPropertyChangedEvent("LoadingFailed");
+                OnPropertyChangedEvent(null);
             }
         }
 
         public bool LoadingSuccess
         {
-            get { return this._loadingFailed; }
+            get { return this._loadingSuccess; }
             set
             {
-                this._loadingFailed = value;
-                OnPropertyChangedEvent("LoadingSuccess");
+                this._loadingSuccess = value;
+                OnPropertyChangedEvent(null);
             }
         }
+
+        public bool PreloadOnly => this.NotLoading && !this.LoadingSuccess && !this.LoadingFailed;
     }
 }

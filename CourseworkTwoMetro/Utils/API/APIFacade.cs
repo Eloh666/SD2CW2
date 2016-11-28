@@ -81,6 +81,20 @@ namespace CourseworkTwoMetro.Utils.API
             }
         }
 
+        public static async Task<Booking> SaveBooking(Booking booking, bool shouldPutInsteadOfPost)
+        {
+            string json = MyJsonSerializer.Serialize(booking);
+            var savedCustomerData = shouldPutInsteadOfPost ? await PutData(json, "/booking") : await PostData(json, "/booking"); ;
+            try
+            {
+                return JsonConvert.DeserializeObject<Booking>(savedCustomerData);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static async Task<Customer> SaveCustomer(Customer customer, bool shouldPutInsteadOfPost)
         {
             string json = MyJsonSerializer.Serialize(customer);

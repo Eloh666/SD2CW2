@@ -43,7 +43,7 @@
             Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Foreground="LawnGreen"
             Command="{Binding MainWindowViewModel.Commands.RefreshListsCommand}"
-            CommandParameter="{Binding MainWindowViewModel}" Margin="1221,277,-60,704" Grid.Column="1"
+            CommandParameter="{Binding MainWindowViewModel}" Margin="400,309,1162,672" Grid.ColumnSpan="2"
             />
 
         <Button
@@ -60,9 +60,10 @@
 
         <Image
             x:Name="BackgroundImage"
-            Height="250"
+            Height="225"
             VerticalAlignment="Top"
-            Source="../Resources/Images/bgStuff.png" Grid.Column="1" Margin="0,10,-60,0"
+            Source="../Resources/Images/bgStuff.png" Grid.Column="1"
+            Margin="29,10,-43,0"
             Stretch="UniformToFill" RenderTransformOrigin="0.519,0.178"
             />
 
@@ -77,7 +78,7 @@
                 Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
                 SelectedIndex="{Binding MainWindowViewModel.SelectedTabNumber}"
             >
-            <TabItem Header="Bookings" Margin="849,10,-849,-10">
+            <TabItem Header="Bookings" Margin="903,10,-903,-10">
                 <Grid Margin="0,0,0,-1">
                     <DataGrid
                         AutoGenerateColumns="False"
@@ -87,12 +88,12 @@
                         Grid.ColumnSpan="2"
                         SelectedItem="{Binding MainWindowViewModel.SelectedBooking}"
                         IsReadOnly="True"
-                        >
+                    >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Reference Number" Width="299" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Customer Reference" Width="299" Binding="{Binding CustomerId}"/>
-                            <DataGridTextColumn Header="Arrival Date"  Width="299" Binding="{Binding ArrivalDate}"/>
-                            <DataGridTextColumn Header="Departure Date"  Width="299" Binding="{Binding DepartureDate}"/>
+                            <DataGridTextColumn Header="Arrival Date"  Width="299" Binding="{Binding StartDate}"/>
+                            <DataGridTextColumn Header="Departure Date"  Width="299" Binding="{Binding EndDate}"/>
                         </DataGrid.Columns>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -131,7 +132,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Customers" Margin="886,10,-886,-10">
+            <TabItem Header="Customers" Margin="940,10,-940,-10">
                 <Grid Margin="0,0,0,-1">
                     <DataGrid
                         AutoGenerateColumns="False"
@@ -142,9 +143,9 @@
                         IsReadOnly="True"
                         >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Reference Number" Width="399" Binding="{Binding ReferenceNumber}"/>
-                            <DataGridTextColumn Header="Customer Name" Width="399" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Address" Width="399" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="Reference Number" Width="190" Binding="{Binding ReferenceNumber}"/>
+                            <DataGridTextColumn Header="Customer Name" Width="445" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Address" Width="545" Binding="{Binding Address}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button
@@ -191,34 +192,63 @@
             Width="381"
             Source="../Resources/Images/EdNapLog.jpg"
             />
-        <StackPanel
+        <TabControl
+            Grid.Column="0" x:Name="GuestTab"
             HorizontalAlignment="Left"
-            Height="510"
-            Margin="50,350,0,0"
+            Height="545"
+            Margin="20,330,0,0"
             VerticalAlignment="Top"
-            Width="295"
-            Visibility="{Binding MainWindowViewModel.DisplayStockPanel, Converter={StaticResource BoolToHiddenConverter}}"
-        >
-            <Label x:Name="ItemIDLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.IdString}" />
-            <Label x:Name="BookingStartLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.ArrivalDateString}" />
-            <Label x:Name="BookingEndLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.DepartureDateString}" />
-            <Separator Height="30" Background="Transparent" />
-            <Grid>
-                <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" Height="30" Width="100" Margin="0,0,139,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsBreakfastSelected, Mode=OneWay}"/>
-                <CheckBox x:Name="DinnerCheckbox" Content="Dinner" Height="30" Width="100" Margin="100,0,32,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsDinnerSelected, Mode=OneWay}" />
-            </Grid>
-            <Label x:Name="DietaryLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.DietaryReqsString}" />
-            <Separator Height="30" Background="Transparent" />
-            <Grid>
-                <CheckBox x:Name="CarCheckBox" Content="CarHire" HorizontalAlignment="Left" Width="100" Margin="30,0,0,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsCarHireSelected, Mode=OneWay}"/>
-            </Grid>
-            <Separator Height="30" Background="Transparent" />
-            <Label x:Name="CarHireStartLabel" FontSize="15" Height="40" Content="{Binding MainWindowViewModel.BookingViewModel.HireStartString}" />
-            <Label x:Name="CarHireEndLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.HireEndString}" />
-            <Separator Height="30" Background="Transparent" />
-            <Label x:Name="Guests" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.GuestsNumberString}" />
-            <Separator Height="30" Background="Transparent" />
-            <Label x:Name="Cost" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.GetCostString}" />
-        </StackPanel>
+            Width="310"
+            Visibility="{Binding MainWindowViewModel.DisplaySidePanel, Converter={StaticResource BoolToHiddenConverter}}"
+            >
+            <TabItem
+                Header="Recap">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Height="510"
+                    VerticalAlignment="Top"
+                    Width="260"
+                >
+                    <Label x:Name="ItemIDLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.IdString}" />
+                    <Label x:Name="BookingStartLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.ArrivalDateString}" />
+                    <Label x:Name="BookingEndLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.DepartureDateString}" />
+                    <Separator Height="30" Background="Transparent" />
+                    <Grid>
+                        <CheckBox x:Name="BreakfastCheckbox" Content="Breakfast" Height="30" Width="100" Margin="0,0,139,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsBreakfastSelected, Mode=OneWay}"/>
+                        <CheckBox x:Name="DinnerCheckbox" Content="Dinner" Height="30" Width="100" Margin="100,0,32,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsDinnerSelected, Mode=OneWay}" />
+                    </Grid>
+                    <Label x:Name="DietaryLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.DietaryReqsString}" />
+                    <Separator Height="30" Background="Transparent" />
+                    <Grid>
+                        <CheckBox x:Name="CarCheckBox" Content="CarHire" HorizontalAlignment="Left" Width="100" Margin="30,0,0,0" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsCarHireSelected, Mode=OneWay}"/>
+                    </Grid>
+                    <Separator Height="30" Background="Transparent" />
+                    <Label x:Name="CarHireStartLabel" FontSize="15" Height="40" Content="{Binding MainWindowViewModel.BookingViewModel.HireStartString}" />
+                    <Label x:Name="CarHireEndLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.HireEndString}" />
+                    <Separator Height="30" Background="Transparent" />
+                    <Label x:Name="Guests" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.GuestsNumberString}" />
+                    <Separator Height="30" Background="Transparent" />
+                    <Label x:Name="Cost" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.GetCostString}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Guests" Margin="4,0,-4,0">
+                <DataGrid
+                        x:Name="GuestsTable"
+                        BorderThickness="1"
+                        IsEnabled="True"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding MainWindowViewModel.BookingViewModel.Guests}"
+                        IsReadOnly="True"
+                        Width="300"
+                        BorderBrush="Red" 
+                        Margin="0,10,-5,0"
+                >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Customer Name" Width="149" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Age" Width="149" Binding="{Binding Age}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Controls:MetroWindow>

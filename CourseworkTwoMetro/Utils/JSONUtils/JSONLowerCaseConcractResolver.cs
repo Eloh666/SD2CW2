@@ -22,6 +22,8 @@ namespace CourseworkTwoMetro.Utils.JSONUtils
                                                    property.PropertyName != "dinner" &&
                                                    property.PropertyName != "carhire" &&
                                                    property.PropertyName != "getcost" &&
+                                                   property.PropertyName != "startdate" &&
+                                                   property.PropertyName != "enddate" &&
                                                    ! property.PropertyName.StartsWith("Validate")
                                                    ;
             return property;

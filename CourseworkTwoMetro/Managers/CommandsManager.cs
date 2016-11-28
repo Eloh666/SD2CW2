@@ -9,6 +9,7 @@ using CourseworkTwoMetro.Models.Extras;
 using CourseworkTwoMetro.Utils.API;
 using CourseworkTwoMetro.Utils.RelayCommands;
 using CourseworkTwoMetro.ViewModels;
+using CourseworkTwoMetro.ViewModels.Utils;
 using CourseworkTwoMetro.Views;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -250,12 +251,79 @@ namespace CourseworkTwoMetro.Managers
         private void ToggleExtra(BookingViewModel bookingViewModel, string extraType, bool turnItOn)
         {
             bookingViewModel.Extras[extraType] = turnItOn ? ExtrasFactory.CreateExtra(extraType) : null;
+            bookingViewModel.RefreshView();
+        }
+
+        private async Task<Customer> postNewCustomer(ObservableCollection<Customer> customers, Customer customer)
+        {
+            try
+            {
+                var updatedCustomer = await ApiFacade.SaveCustomer(customer, false);
+                customers.Add(updatedCustomer);
+                return updatedCustomer;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
-        private void SubmitBooking(EditBookingViewModel bookingViewModel)
+        private async void SubmitBooking(EditBookingViewModel bookingViewModel)
         {
+            bookingViewModel.Loading = true;
+            bool put = bookingViewModel.OriginalBooking != null;
+            bool newCustomer = bookingViewModel.CreateNewCustomer;
 
+            try
+            {
+                int customerId;
+                if (newCustomer)
+                {
+                    var customerAdded =
+                        await this.postNewCustomer(bookingViewModel.Customers, bookingViewModel.NewCustomer.Customer);
+                    if (customerAdded == null)
+                    {
+                        bookingViewModel.LoadingSuccess = false;
+                        bookingViewModel.LoadingFailed = true;
+                        return;
+                    }
+                    customerId = customerAdded.ReferenceNumber;
+                }
+                else
+                {
+                    customerId = bookingViewModel.ExistingCustomer.ReferenceNumber;
+                }
+
+                var bookingToSave = bookingViewModel.NewBooking.Booking;
+                bookingToSave.CustomerId = customerId;
+                var shouldPutInsteadOfPost = bookingViewModel.OriginalBooking != null;
+                Booking updaterdBooking = await ApiFacade.SaveBooking(bookingToSave, shouldPutInsteadOfPost);
+                var bookings = bookingViewModel.Bookings;
+                if (!shouldPutInsteadOfPost)
+                {
+                    bookings.Add(updaterdBooking);
+                }
+                else
+                {
+                    for (int i = 0; i < bookings.Count; i++)
+                    {
+                        if (bookings[i] == bookingViewModel.OriginalBooking)
+                        {
+                            bookings[i] = updaterdBooking;
+                            break;
+                        }
+                    }
+                }
+                bookingViewModel.LoadingSuccess = true;
+                bookingViewModel.LoadingFailed = false;
+            }
+            catch
+            {
+                bookingViewModel.LoadingSuccess = false;
+                bookingViewModel.LoadingFailed = true;
+            }
+            bookingViewModel.Loading = false;
         }
 
         private void SubmitGuest(EditGuestViewModel editGuestViewModel)
@@ -284,6 +352,8 @@ namespace CourseworkTwoMetro.Managers
                 editGuestViewModel.AddGuest(editedGuest);
             }
             Window currentDialog = Application.Current.Windows.OfType<GuestEdit>().SingleOrDefault(w => w.IsActive);
+            var bookingWindow = (PropertyChangedNotifier) Application.Current.Windows.OfType<BookingEdit>().SingleOrDefault(w => !w.IsActive)?.DataContext;
+            bookingWindow?.RefreshView();
             CloseWindow(currentDialog);
         }
 
@@ -304,6 +374,7 @@ namespace CourseworkTwoMetro.Managers
                     break;
                 }
             }
+            bookingViewModel.RefreshView();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace CourseworkTwoMetro.Models.Extras
     {
         public Dinner() : base("Dinner")
         {
+            this.NightlyCost = 15;
         }
 
         private const double DinnerCost = 15;

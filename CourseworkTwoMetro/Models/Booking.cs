@@ -13,9 +13,9 @@ namespace CourseworkTwoMetro.Models
     [Serializable]
     public class Booking : ICloneable
     {
+        private DateTime _arrivalDate;
+        private DateTime _departureDate;
         public int Id { get; set; }
-        public DateTime ArrivalDate { get; set; }
-        public DateTime DepartureDate { get; set; }
 
         public string DietaryReqs { get; set; }
 
@@ -27,6 +27,8 @@ namespace CourseworkTwoMetro.Models
         {
             this.Extras = new Dictionary<string, Extra> {{"Breakfast", null}, {"Dinner", null}, {"CarHire", null}};
             this.Guests = new ObservableCollection<Guest>();
+            this.ArrivalDate = DateTime.Today;
+            this.DepartureDate = DateTime.Today.AddDays(1);
         }
 
         public Booking(int id, DateTime arrivalDate, DateTime departureDate, int customerId) : base()
@@ -36,6 +38,23 @@ namespace CourseworkTwoMetro.Models
             this.DepartureDate = departureDate;
             this.CustomerId = customerId;
         }
+
+        public DateTime ArrivalDate
+        {
+            get { return _arrivalDate.Date; }
+            set { _arrivalDate = value; }
+        }
+
+        public DateTime DepartureDate
+        {
+            get { return _departureDate.Date; }
+            set { _departureDate = value; }
+        }
+
+        public string StartDate => _arrivalDate.Date.ToString("d");
+
+        public string EndDate => _departureDate.Date.ToString("d");
+
 
         public Dinner Dinner
         {
@@ -60,38 +79,23 @@ namespace CourseworkTwoMetro.Models
             get
             {
                 double nights = (this.DepartureDate - this.ArrivalDate).TotalDays;
-                double extras = this.Extras.Sum(entry => entry.Value?.GetCost(nights) ?? 0);
+                double extras = this.Extras.Sum(entry => entry.Value?.GetCost(nights, Guests.Count) ?? 0);
                 double bookings = Guests.Sum(guest => (guest.Age < 18 ? 30 : 50) * nights);
                 return extras + bookings;
             }
         }
 
-        public string ValidateArrivalDate()
-        {
-            if (this.ArrivalDate < default(DateTime))
-            {
-                return "Your booking date cannot start in the past";
-            }
-            if (this.ArrivalDate > this.DepartureDate)
-            {
-                return "Your booking cannot start after its end";
-            }
+        public string ValidateArrivalDate() => this.ArrivalDate < DateTime.Today
+            ? "Your booking date cannot start in the past"
+            : (this.ArrivalDate > this.DepartureDate
+                ? "Your booking cannot start after its end"
+                : (this.ArrivalDate == DepartureDate ? "Your booking must last at least one day." : null));
 
-            return null;
-        }
-
-        public string ValidateDepartureDate()
-        {
-            if (this.DepartureDate < DateTime.Now)
-            {
-                return "Your booking date cannot start in the past";
-            }
-            if (this.ArrivalDate > this.DepartureDate)
-            {
-                return "Your booking cannot end before its start";
-            }
-            return null;
-        }
+        public string ValidateDepartureDate() => this.DepartureDate < DateTime.Today.AddDays(1)
+            ? "Your booking date cannot start in the past"
+            : (this.ArrivalDate > this.DepartureDate
+                ? "Your booking cannot end before its start"
+                : (this.ArrivalDate == DepartureDate ? "Your booking must last at least one day." : null));
 
         public string ValidateGuestsList()
         {
