@@ -91,7 +91,7 @@ namespace CourseworkTwoMetro.Models
                 ? "Your booking cannot start after its end"
                 : (this.ArrivalDate == DepartureDate ? "Your booking must last at least one day." : null));
 
-        public string ValidateDepartureDate() => this.DepartureDate < DateTime.Today.AddDays(1)
+        public string ValidateDepartureDate() => this.DepartureDate < DateTime.Today
             ? "Your booking date cannot start in the past"
             : (this.ArrivalDate > this.DepartureDate
                 ? "Your booking cannot end before its start"

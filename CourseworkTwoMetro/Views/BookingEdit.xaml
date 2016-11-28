@@ -162,7 +162,9 @@
                 x:Name="Page1"
                 PageType="Exterior"
                 Title="Page 1"
-                Description="This is the first page in the process.">
+                Description="This is the first page in the process."
+                CanSelectNextPage="{Binding CanMoveToSavePage}"    
+            >
             <Grid>
                 <Button
                         x:Name="NewGuest"
@@ -211,12 +213,14 @@
                         x:Name="VacationTimeStartPicker"
                         Width="144"
                         Margin="32,85,903,321"
+                        DisplayDateStart="{Binding MinStartDate, Mode=OneWay}"
                         SelectedDate="{Binding NewBooking.ArrivalDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
                 <DatePicker
                         x:Name="VacationTimeEndPicker"
                         Width="144"
                         Margin="217,85,718,321"
+                        DisplayDateStart="{Binding MinEndDate, Mode=OneWay}"
                         SelectedDate="{Binding NewBooking.DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
                 <CheckBox x:Name="ExtraCarSwitch"
@@ -235,12 +239,14 @@
                         Width="144"
                         Margin="32,205,903,201"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
+                        DisplayDateStart="{Binding MinStartDate, Mode=OneWay}"
                         SelectedDate="{Binding NewBooking.CarHireStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />
                 <DatePicker
                         x:Name="HireTimeEndPicker"
                         Width="144"
                         Margin="217,205,718,201"
+                        DisplayDateStart="{Binding MinEndDate, Mode=OneWay}"
                         Visibility="{Binding CarHireSwitch, Converter={StaticResource BoolToHiddenConverter}}"
                         SelectedDate="{Binding NewBooking.CarHireEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 />

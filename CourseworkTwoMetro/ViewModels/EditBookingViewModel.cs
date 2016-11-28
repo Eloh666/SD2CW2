@@ -35,6 +35,8 @@ namespace CourseworkTwoMetro.ViewModels
         private ObservableCollection<Guest> _currentGestsList;
         private Customer _existingCustomer;
         private CustomerViewModel _newCustomer;
+        public DateTime MinStartDate { get; }
+        public DateTime MinEndDate { get; }
 
         // new booking
         public EditBookingViewModel(string title, MainViewModel mainViewModel, BookingViewModel selectedBooking = null)
@@ -59,6 +61,8 @@ namespace CourseworkTwoMetro.ViewModels
             this.Bookings = mainViewModel.MainWindowViewModel.Bookings;
             this.CreateNewCustomer = true;
 
+            this.MinStartDate = DateTime.Today;
+            this.MinEndDate = DateTime.Today.AddDays(1);
 
             this.NewCustomer = new CustomerViewModel(new Customer());
             if (this.NewBooking.CustomerId == 0) return;
@@ -115,6 +119,7 @@ namespace CourseworkTwoMetro.ViewModels
         }
 
         public bool CanMoveToPageTwo => this._existingCustomerRadio ? this.ExistingCustomer != null : this.NewCustomer.IsCustomerValid;
+        public bool CanMoveToSavePage => this.NewBooking.Guests.Count > 0;
 
         public bool CanMoveBackToPageTwo => !this.CanFinish;
         public bool CanFinish => this.LoadingSuccess || this.LoadingFailed;

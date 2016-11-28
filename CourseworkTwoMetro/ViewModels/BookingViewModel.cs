@@ -66,7 +66,7 @@ namespace CourseworkTwoMetro.ViewModels
             get { return Booking.ArrivalDate; }
             set
             {
-                this.Booking.ArrivalDate = value;
+                this.Booking.ArrivalDate = value >= DateTime.Today ? value : DateTime.Today;
                 this._fieldsUseDictionary["ArrivalDate"] = true;
                 OnPropertyChangedEvent(null);
             }
@@ -77,7 +77,7 @@ namespace CourseworkTwoMetro.ViewModels
             get { return Booking.DepartureDate; }
             set
             {
-                this.Booking.DepartureDate = value;
+                this.Booking.DepartureDate = value >= DateTime.Today.AddDays(1) ? value : DateTime.Today.AddDays(1);
                 this._fieldsUseDictionary["DepartureDate"] = true;
                 OnPropertyChangedEvent(null);
             }
@@ -92,7 +92,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 if (this.CarHire != null)
                 {
-                    Booking.CarHire.HireStart = value;
+                    Booking.CarHire.HireStart = value >= DateTime.Today ? value : DateTime.Today;
                     this._fieldsUseDictionary["CarHireStart"] = true;
                     OnPropertyChangedEvent(null);
                 }
@@ -109,7 +109,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 if (this.CarHire != null)
                 {
-                    Booking.CarHire.HireEnd = value;
+                    Booking.CarHire.HireEnd = value >= DateTime.Today.AddDays(1) ? value : DateTime.Today.AddDays(1);
                     this._fieldsUseDictionary["CarHireEnd"] = true;
                     OnPropertyChangedEvent(null);
                 }
