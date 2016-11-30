@@ -183,6 +183,16 @@
         	Visibility="{Binding MainWindowViewModel.Loading, Converter={StaticResource BoolToHiddenConverter}}"
             Margin="449,415,452,306"
             />
+        <TextBlock
+           x:Name="SomethingWentWrongLabel"
+           Text="WHOOPS...SOMETHING WENT WRONG WITH YOUR REQUEST. Check your internet connection!"
+           TextWrapping="Wrap"
+           Foreground="Red"
+           HorizontalAlignment="Center"
+            Grid.Column="1"
+           FontSize="40"
+           Visibility="{Binding LoadingFailed, Converter={StaticResource BoolToHiddenConverter}}" Margin="84,629,-16,221" Width="1133"
+           />
         <Image
             x:Name="LogoImage"
             HorizontalAlignment="Left"
