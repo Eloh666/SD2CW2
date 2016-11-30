@@ -413,8 +413,9 @@
                         Foreground="YellowGreen"
                         Visibility="{Binding LoadingSuccess, Converter={StaticResource BoolToHiddenConverter}}"
                 />
-                <Label
-                        Content="WHOOPS...SOMETHING WENT WRONG WITH YOUR REQUEST."
+                <TextBlock
+                        Text="WHOOPS...SOMETHING WENT WRONG WITH YOUR REQUEST."
+                        TextWrapping="Wrap"
                         Margin="234,92,233,254"
                         Foreground="Red"
                         HorizontalAlignment="Center"

@@ -105,19 +105,19 @@ namespace CourseworkTwoMetro.Managers
         // login method for the login command
         private async void Login(LoginWindow loginWindow)
         {
-            //LoginViewModel loginModel = _mainViewModel.LoginViewModel;
-            //if (loginModel.IsUserValid)
-            //{
-            //loginModel.Loading = true;
-            //bool loginIsSuccessful = await ApiFacade.Login(loginModel.User);
-            //loginModel.Loading = false;
-            //loginModel.LoginFailed = !loginIsSuccessful;
-            //if (loginIsSuccessful)
-            //{
-            this._mainViewModel.Windows.CreateMainWindow();
-            loginWindow.Close();
-            //    }
-            //};
+            LoginViewModel loginModel = _mainViewModel.LoginViewModel;
+            if (loginModel.IsUserValid)
+            {
+                loginModel.Loading = true;
+                bool loginIsSuccessful = await ApiFacade.Login(loginModel.User);
+                loginModel.Loading = false;
+                loginModel.LoginFailed = !loginIsSuccessful;
+                if (loginIsSuccessful)
+                {
+                    this._mainViewModel.Windows.CreateMainWindow();
+                    loginWindow.Close();
+                }
+            };
         }
 
         // close window command for the close window command
@@ -352,7 +352,7 @@ namespace CourseworkTwoMetro.Managers
                 editGuestViewModel.AddGuest(editedGuest);
             }
             Window currentDialog = Application.Current.Windows.OfType<GuestEdit>().SingleOrDefault(w => w.IsActive);
-            var bookingWindow = (PropertyChangedNotifier) Application.Current.Windows.OfType<BookingEdit>().SingleOrDefault(w => !w.IsActive)?.DataContext;
+            var bookingWindow = (PropertyChangedNotifier)Application.Current.Windows.OfType<BookingEdit>().SingleOrDefault(w => !w.IsActive)?.DataContext;
             bookingWindow?.RefreshView();
             CloseWindow(currentDialog);
         }

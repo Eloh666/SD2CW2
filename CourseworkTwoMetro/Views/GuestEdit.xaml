@@ -43,7 +43,7 @@
 			Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             />
         <TextBox
-			x:Name="Password"
+			x:Name="Age"
 			Controls:TextBoxHelper.Watermark="Enter your password here..."
 			Controls:TextBoxHelper.ClearTextButton="True"
 			HorizontalAlignment="Left"
@@ -52,10 +52,10 @@
 			VerticalAlignment="Top"
 			Width="292"
 			FontFamily="Password Font"
-			Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+			Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" KeyDown="HandleKeydownEvent"
             />
         <TextBox
-			x:Name="Address"
+			x:Name="Passport"
 			Controls:TextBoxHelper.Watermark="Enter your password here..."
 			Controls:TextBoxHelper.ClearTextButton="True"
 			HorizontalAlignment="Left"
