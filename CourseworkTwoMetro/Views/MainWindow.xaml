@@ -191,7 +191,7 @@
            HorizontalAlignment="Center"
             Grid.Column="1"
            FontSize="40"
-           Visibility="{Binding LoadingFailed, Converter={StaticResource BoolToHiddenConverter}}" Margin="84,629,-16,221" Width="1133"
+           Visibility="{Binding LoadingFailed, Converter={StaticResource BoolToHiddenConverter}}" Margin="44,874,24,-24" Width="1133"
            />
         <Image
             x:Name="LogoImage"
