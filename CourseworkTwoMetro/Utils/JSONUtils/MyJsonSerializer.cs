@@ -2,6 +2,11 @@
 
 namespace CourseworkTwoMetro.Utils.JSONUtils
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// the JSON serialises with the settings I have added in the lower case contract resolver
+    /// </summary>
     public class MyJsonSerializer
     {
         public static string Serialize(object data)

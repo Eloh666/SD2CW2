@@ -5,11 +5,23 @@ using CourseworkTwoMetro.Utils.API;
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// View model for the login class
+    /// Even if not called so (MVVM conventions) is technically a wrapper/decorator
+    /// </summary>
     public class LoginViewModel : FormWithSpinnerViewModel, IDataErrorInfo
     {
         private bool _loginFailed;
+
+        // dictionary that tracks fields used
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+
+        // wrappeed user object
         public User User { get; }
+
+        // inits the class adding a booking a fixing the dicionary used for validations
         public LoginViewModel()
         {
             ApiFacade.InitialiseApi();
@@ -20,6 +32,7 @@ namespace CourseworkTwoMetro.ViewModels
             this._fieldsUseDictionary.Add("Password", false);
         }
 
+        // wrapping getters/setters invoking the property changed notifier
         public string Username
         {
             get { return User.Username; }
@@ -52,6 +65,7 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
+        // IDataError implementation for fields validation
         string IDataErrorInfo.Error => null;
         string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
 
@@ -62,6 +76,7 @@ namespace CourseworkTwoMetro.ViewModels
             "Password",
         };
 
+        // checks the validation status of the user
         public bool IsUserValid
         {
             get

@@ -7,11 +7,20 @@ using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// ViewModel for the customer class.
+    /// Even if not called so (MVVM conventions) is technically a wrapper/decorator
+    /// </summary>
     public class CustomerViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
+        // dictionary that tracks fields used
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        // instance of the booking being wrapped
         private Customer _customer;
 
+        // inits the class adding a booking a fixing the dicionary used for validations
         public CustomerViewModel(Customer customer)
         {
             this.Customer = (Customer) customer.Clone();
@@ -24,6 +33,7 @@ namespace CourseworkTwoMetro.ViewModels
 
         }
 
+        // wrapping getters/setters invoking the property changed notifier
         public Customer Customer
         {
             get { return _customer; }
@@ -40,7 +50,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this.Customer.ReferenceNumber = value;
-                OnPropertyChangedEvent("ReferenceNumber");
+                OnPropertyChangedEvent();
             }
         }
 
@@ -51,7 +61,7 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Customer.Name = value;
                 this._fieldsUseDictionary["Name"] = true;
-                OnPropertyChangedEvent("Name");
+                OnPropertyChangedEvent();
             }
         }
 
@@ -62,11 +72,11 @@ namespace CourseworkTwoMetro.ViewModels
             {
                 this.Customer.Address = value;
                 this._fieldsUseDictionary["Address"] = true;
-                OnPropertyChangedEvent("Address");
+                OnPropertyChangedEvent();
             }
         }
 
-
+        // IDataError implementation for fields validation
         string IDataErrorInfo.Error => null;
         string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
 
@@ -77,6 +87,7 @@ namespace CourseworkTwoMetro.ViewModels
             "Address",
         };
 
+        // checks the validation status of the wrappee
         public bool IsCustomerValid
         {
             get

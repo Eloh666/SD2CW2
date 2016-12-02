@@ -2,6 +2,11 @@
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// View model for the deletatation dialog
+    /// </summary>
     public class DeleteDialogViewModel : FormWithSpinnerViewModel
     {
         public string Title { get; }

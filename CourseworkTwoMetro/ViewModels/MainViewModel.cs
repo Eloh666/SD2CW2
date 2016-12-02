@@ -2,6 +2,11 @@
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// main view model for the whole application
+    /// </summary>
     public class MainViewModel
     {   
         // Commands manager library

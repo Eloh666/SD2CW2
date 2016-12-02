@@ -8,10 +8,12 @@
                       xmlns:utils="clr-namespace:CourseworkOneMetro.ViewModels.Utils"
                       xmlns:viewModels="clr-namespace:CourseworkTwoMetro.ViewModels"
                       xmlns:utils1="clr-namespace:CourseworkTwoMetro.Views.Utils"
+                      xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       Title="Login"
                       Height="447"
                       Width="800"
                       ResizeMode="NoResize"
+                      dialogs:DialogParticipation.Register="{Binding}"
                       >
     <Controls:MetroWindow.Resources>
         <utils:BoolToVisibilityConv

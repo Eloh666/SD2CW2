@@ -9,25 +9,37 @@ using Xceed.Wpf.DataGrid.Converters;
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// ViewModel for the main window of the application
+    /// </summary>
     public class MainWindowViewModel : FormWithSpinnerViewModel
     {
+        // reference to manager singletons
         public WindowsManager Windows { get; }
         public CommandsManager Commands { get; }
 
+        // customer lists and selected customer
         private ObservableCollection<Customer> _customers;
         private Customer _selectedCustomer;
+        // booking list, selected booking and booking view model instance for the left side panel invoice
         private ObservableCollection<Booking> _bookings;
         private Booking _selectedBooking;
         private BookingViewModel _bookingViewModel;
+        // the tab selected on the current datagrid
         private int _selectedTabNumber;
 
+        // construct references and updates the lists by using the API facade
         public MainWindowViewModel(MainViewModel mainViewModel)
         {
             this.Commands = CommandsManager.Instance(mainViewModel);
             this.Windows = WindowsManager.Instance(mainViewModel);
+            // calls the refresh list command in the API facade
             this.Commands.RefreshLists(this);
         }
 
+        // wrapping getters/setters invoking the property changed notifier
         public int SelectedTabNumber
         {
             get { return _selectedTabNumber; }
@@ -77,7 +89,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _customers = value;
-                OnPropertyChangedEvent("Customers");
+                OnPropertyChangedEvent();
             }
         }
 
@@ -90,7 +102,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 _bookings = value;
-                OnPropertyChangedEvent("Bookings");
+                OnPropertyChangedEvent();
             }
         }
 

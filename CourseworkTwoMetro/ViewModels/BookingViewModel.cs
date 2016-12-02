@@ -9,11 +9,20 @@ using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// ViewModel for the booking class.
+    /// Even if not called so (MVVM conventions) is technically a wrapper/decorator
+    /// </summary>
     public class BookingViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
+        // dictionary that tracks fields used
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        // instance of the booking being wrapped
         private Booking _booking;
 
+        // inits the class adding a booking a fixing the dicionary used for validations
         public BookingViewModel(Booking booking)
         {
             this.Booking = (Booking) booking.Clone();
@@ -31,6 +40,7 @@ namespace CourseworkTwoMetro.ViewModels
             this._fieldsUseDictionary.Add("CarHireEnd", false);
         }
 
+        // wrapping getters/setters invoking the property changed notifier
         public Booking Booking
         {
             get { return _booking; }
@@ -47,7 +57,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this.Booking.Id = value;
-                OnPropertyChangedEvent("Id");
+                OnPropertyChangedEvent();
             }
         }
 
@@ -57,7 +67,7 @@ namespace CourseworkTwoMetro.ViewModels
             set
             {
                 this.Booking.Id = value;
-                OnPropertyChangedEvent("CustomerId");
+                OnPropertyChangedEvent();
             }
         }
 
@@ -174,6 +184,8 @@ namespace CourseworkTwoMetro.ViewModels
 
         public Dictionary<string, Extra> Extras => Booking.Extras;
 
+        // returns a wrapped/stringified version of the various properties of the booking
+        // these are used in the invoices/recap sessions of the app
         public double GetCost => Booking.GetCost;
 
         public bool IsBreakfastSelected => this.Booking.Breakfast != null;
@@ -193,6 +205,7 @@ namespace CourseworkTwoMetro.ViewModels
 
         public string GetCostString => "Total due: £" + Booking.GetCost;
 
+        // IDataError implementation for fields validation
         string IDataErrorInfo.Error => null;
         string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
 
@@ -204,6 +217,7 @@ namespace CourseworkTwoMetro.ViewModels
             "Guests",
         };
 
+        // checks the validation status of the booking
         public bool IsBookingValid
         {
             get

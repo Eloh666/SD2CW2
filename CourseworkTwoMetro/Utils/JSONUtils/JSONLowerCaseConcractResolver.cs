@@ -8,13 +8,20 @@ using Newtonsoft.Json.Serialization;
 
 namespace CourseworkTwoMetro.Utils.JSONUtils
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// a small/personal extention of the json serialize resolver
+    /// </summary>
     public class JsonCustomContractResolver : DefaultContractResolver
     {
+        // lowercases the json of the serialized object
         protected override string ResolvePropertyName(string propertyName)
         {
             return propertyName.ToLower();
         }
 
+        // skips the following properties
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);

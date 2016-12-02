@@ -7,23 +7,37 @@ using CourseworkTwoMetro.ViewModels.Utils;
 
 namespace CourseworkTwoMetro.ViewModels
 {
+    /// <summary>
+    /// Created by Davide Morello
+    /// Last Modified November
+    /// ViewModel for the guest class.
+    /// Even if not called so (MVVM conventions) is technically a wrapper/decorator
+    /// </summary>
     public class EditGuestViewModel : PropertyChangedNotifier, IDataErrorInfo
     {
         // managers singletons
         public WindowsManager Windows { get; }
         public CommandsManager Commands { get; }
 
+        // list of guests of the current booking
         public ObservableCollection<Guest> Guests { get; set; }
 
+        // dictionary that tracks fields used
         private readonly Dictionary<string, bool> _fieldsUseDictionary;
+        // title of the of the window
         public string Title { get; set; }
+        // the current guest being edited and cloned from the original one
         public Guest Guest { get; set; }
+        // the original guest being set if editing
         public Guest SelectedGuest { get; set; }
         public EditGuestViewModel(string title, MainViewModel mainViewModel, ObservableCollection<Guest> guests, Guest guest = null)
         {
+            // instance of the manager singletons
             this.Windows = WindowsManager.Instance(mainViewModel);
             this.Commands = CommandsManager.Instance(mainViewModel);
+            // title of the of the window
             this.Title = title;
+            // clones the selected guest and sets the original if editing
             if (guest == null)
             {
                 this.Guest = new Guest();
@@ -34,6 +48,7 @@ namespace CourseworkTwoMetro.ViewModels
                 this.Guest = (Guest) guest.Clone();
                 this.SelectedGuest = guest;
             }
+            // sets up the validation for the dictionary
             _fieldsUseDictionary = new Dictionary<string, bool>();
             this._fieldsUseDictionary.Add("Name", false);
             this._fieldsUseDictionary.Add("Age", false);
@@ -41,6 +56,7 @@ namespace CourseworkTwoMetro.ViewModels
             this.Guests = guests;
         }
 
+        // wrapping getters/setters invoking the property changed notifier
         public void AddGuest(Guest guest)
         {
             this.Guests.Add(guest);
@@ -80,6 +96,7 @@ namespace CourseworkTwoMetro.ViewModels
             }
         }
 
+        // IDataError implementation for fields validation
         string IDataErrorInfo.Error => null;
         string IDataErrorInfo.this[string fieldName] => GetValidationError(fieldName);
 
@@ -91,6 +108,7 @@ namespace CourseworkTwoMetro.ViewModels
             "PassportNumber"
         };
 
+        // checks the validation status of the wrappee
         public bool IsGuestValid
         {
             get
