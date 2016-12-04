@@ -106,7 +106,7 @@ namespace CourseworkTwoMetro.Models
                 ? "Your booking cannot start after its end"
                 : (this.ArrivalDate == DepartureDate ? "Your booking must last at least one day." : null));
 
-        public string ValidateDepartureDate() => this.DepartureDate < DateTime.Today
+        public string ValidateDepartureDate() => this.DepartureDate < DateTime.Today.AddDays(1)
             ? "Your booking date cannot start in the past"
             : (this.ArrivalDate > this.DepartureDate
                 ? "Your booking cannot end before its start"
@@ -115,7 +115,9 @@ namespace CourseworkTwoMetro.Models
         // and validation for the booking guests
         public string ValidateGuestsList()
         {
-            return this.Guests.Count == 0 ? "You need at leaast a guest for this booking" : null;
+            return this.Guests.Count == 0
+                ? "You need at least one guest to proceed with your booking."
+                : (this.Guests.Count > 4 ? "Too many guests selected." : null);
         }
 
         // implementation of the cloning interface
