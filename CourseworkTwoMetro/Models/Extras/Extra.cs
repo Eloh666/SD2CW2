@@ -9,7 +9,7 @@ namespace CourseworkTwoMetro.Models.Extras
     /// used by the factory pattern
     /// </summary>
     [Serializable]
-    public abstract class Extra
+    public abstract class Extra : ClonableModel
     {
         protected double NightlyCost = 0;
         private string _type;

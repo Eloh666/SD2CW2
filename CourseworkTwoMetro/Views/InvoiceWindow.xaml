@@ -1,0 +1,63 @@
+﻿<Controls:MetroWindow
+                      x:Class="CourseworkTwoMetro.Views.InvoiceWindow"
+                      x:Name="InvoiceWin"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Booking Invoice"
+                      Height="800"
+                      Width="800">
+    <Grid>
+        <Image x:Name="EdNapLogo"
+               HorizontalAlignment="Left"
+               Height="112" Margin="10,10,0,0"
+               VerticalAlignment="Top"
+               Width="277"
+               Source="../Resources/Images/EdNapLog.jpg"
+               />
+        <Label x:Name="NapAddressLabel"
+               Content="219 Colinton Rd,&#xD;&#xA; Edinburgh&#xD;&#xA; EH14 1DJ"
+               HorizontalAlignment="Left"
+               Margin="677,10,0,0"
+               VerticalAlignment="Top"
+               FontSize="13"
+               />
+        <Label x:Name="IssueDateLabel"
+               HorizontalAlignment="Left"
+               Margin="25,127,0,0"
+               VerticalAlignment="Top"
+               Width="185"
+               Content="{Binding CurrentDate}"
+               />
+        <Button x:Name="CloseButton"
+                Content="Close"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Width="200"
+                Command="{Binding CloseWindowCommand}"
+                CommandParameter="{Binding ElementName=InvoiceWin}"
+                Margin="305,734,287,0" 
+                />
+        <TextBlock
+            x:Name="InvoiceDetails"
+            HorizontalAlignment="Left"
+            Margin="25,157,0,0"
+            TextWrapping="Wrap"
+            Text="{Binding InvoiceText}"
+            VerticalAlignment="Top"
+            Height="520"
+            Width="740"
+            />
+        <TextBlock
+            x:Name="TotalCost"
+            HorizontalAlignment="Left"
+            Margin="550,682,0,0"
+            TextWrapping="Wrap"
+            Text="{Binding BookingToDisplay.GetCostString}"
+            FontSize="25"
+            VerticalAlignment="Top"
+            Height="43"
+            Width="232"
+            />
+    </Grid>
+</Controls:MetroWindow>

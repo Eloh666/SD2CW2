@@ -35,6 +35,8 @@ namespace CourseworkTwoMetro.Managers
         public RelayCommand<EditBookingViewModel> NewGuestCommand { get; private set; }
         // opens a window to edit a guest
         public RelayCommand<EditBookingViewModel> EditGuestCommand { get; private set; }
+        // opens a window to read the booking invoice
+        public RelayCommand<MainWindowViewModel> OpenInvoiceWindowCommand { get; private set; }
 
         // reference to the dialog coordinator singleton
         private readonly IDialogCoordinator _dialogCoordinator;
@@ -50,6 +52,8 @@ namespace CourseworkTwoMetro.Managers
 
             this.EditMainTabItemCommand = new RelayCommand<MainWindowViewModel>(this.EditMainTabItem, this.CanModifyItem);
             this.DeleteMainTabItemCommand = new RelayCommand<MainWindowViewModel>(this.DeleteMainTabItem, this.CanModifyItem);
+
+            this.OpenInvoiceWindowCommand = new RelayCommand<MainWindowViewModel>(this.OpenInvoiceWindow, this.CanModifyItem);
 
             this.EditGuestCommand = new RelayCommand<EditBookingViewModel>(this.EditGuest, this.CanModifyGuest);
         }
@@ -175,5 +179,14 @@ namespace CourseworkTwoMetro.Managers
         {
             return bookingViewModel?.NewBooking != null && bookingViewModel.NewBooking.Guests.Count < 4;
         }
+
+        // opens the invoice window
+        private void OpenInvoiceWindow(MainWindowViewModel mainWindowViewModel)
+        {
+            var invoiceViewModel = new InvoiceViewModel(this._mainViewModel, mainWindowViewModel.BookingViewModel, mainWindowViewModel.Customers);
+            var invoiceWindow = new InvoiceWindow {DataContext = invoiceViewModel};
+            invoiceWindow.ShowDialog();
+        }
+
     }
 }

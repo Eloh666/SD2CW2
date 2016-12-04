@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseworkTwoMetro", "Cours
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWorkTwoMetro_Tests", "CourseWorkTwoMetro_Tests\CourseWorkTwoMetro_Tests.csproj", "{95DD4865-EC4E-4B73-BAC4-1DA5B88434A1}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "UMLCoursework2", "UMLCoursework2\UMLCoursework2.modelproj", "{B4B10197-42F4-4FBB-9CBC-89900A95CBC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{95DD4865-EC4E-4B73-BAC4-1DA5B88434A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DD4865-EC4E-4B73-BAC4-1DA5B88434A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DD4865-EC4E-4B73-BAC4-1DA5B88434A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B10197-42F4-4FBB-9CBC-89900A95CBC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B10197-42F4-4FBB-9CBC-89900A95CBC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B10197-42F4-4FBB-9CBC-89900A95CBC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B10197-42F4-4FBB-9CBC-89900A95CBC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

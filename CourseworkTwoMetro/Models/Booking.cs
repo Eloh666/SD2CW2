@@ -17,7 +17,7 @@ namespace CourseworkTwoMetro.Models
     /// guests and some validation methods
     /// </summary>
     [Serializable]
-    public class Booking : ICloneable
+    public class Booking : ClonableModel
     {
         private DateTime _arrivalDate;
         private DateTime _departureDate;
@@ -118,12 +118,6 @@ namespace CourseworkTwoMetro.Models
             return this.Guests.Count == 0
                 ? "You need at least one guest to proceed with your booking."
                 : (this.Guests.Count > 4 ? "Too many guests selected." : null);
-        }
-
-        // implementation of the cloning interface
-        public object Clone()
-        {
-            return CloneUtils.DeepClone(this);
         }
 
     }

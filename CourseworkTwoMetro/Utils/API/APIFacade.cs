@@ -15,8 +15,8 @@ namespace CourseworkTwoMetro.Utils.API
 {
     public class ApiFacade
     {
-        //private const string Host = "https://coursework2api.herokuapp.com/";
-        private const string Host = "http://127.0.0.1:5000";
+        private const string Host = "https://coursework2api.herokuapp.com/";
+        //private const string Host = "http://127.0.0.1:5000";
 
         private static HttpClient _client;
         private static string _jwt;

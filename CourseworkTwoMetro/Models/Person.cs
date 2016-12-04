@@ -4,7 +4,7 @@ using CourseworkOneMetro.Models.Utils;
 namespace CourseworkTwoMetro.Models
 {
     [Serializable]
-    public abstract class Person
+    public abstract class Person : ClonableModel
     {
         public string Name { get; set; }
         protected Person(){}

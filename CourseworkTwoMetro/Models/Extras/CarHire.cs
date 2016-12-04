@@ -10,7 +10,7 @@ namespace CourseworkTwoMetro.Models.Extras
     /// very handy for serialization
     /// </summary>
     [Serializable]
-    public class CarHire : Extra, ICloneable
+    public class CarHire : Extra
     {
         private DateTime _hireStart;
         private DateTime _hireEnd;
@@ -63,10 +63,5 @@ namespace CourseworkTwoMetro.Models.Extras
             return NightlyCost * (this.HireEnd - this.HireStart).TotalDays;
         }
 
-        // simple implementation of the clonable interface
-        public object Clone()
-        {
-            return CloneUtils.DeepClone(this);
-        }
     }
 }

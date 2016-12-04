@@ -10,17 +10,11 @@ namespace CourseworkTwoMetro.Models.Extras
     /// Just a convenient dummy object used for serialization
     /// </summary>
     [Serializable]
-    public class Dinner : Extra, ICloneable
+    public class Dinner : Extra
     {
         public Dinner() : base("Dinner")
         {
             this.NightlyCost = 15;
-        }
-
-        // simple implementation of the clonable interface
-        public object Clone()
-        {
-            return CloneUtils.DeepClone(this);
         }
 
         private const double DinnerCost = 15;

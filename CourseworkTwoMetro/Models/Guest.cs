@@ -10,7 +10,7 @@ namespace CourseworkTwoMetro.Models
     /// Guest data object model
     /// </summary>
     [Serializable]
-    public class Guest : Person, ICloneable
+    public class Guest : Person
     {
         public uint Age { get; set; }
         public string PassportNumber { get; set; }
@@ -34,12 +34,6 @@ namespace CourseworkTwoMetro.Models
         public string ValidatePassportNumber()
         {
             return ValidationUtilities.ValidateNonEmpty("PassportNumber", this.PassportNumber);
-        }
-
-        // simple implementation of the clonable interface
-        public object Clone()
-        {
-            return CloneUtils.DeepClone(this);
         }
     }
 }

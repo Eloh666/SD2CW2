@@ -28,7 +28,7 @@
             x:Name="DeleteButton"
             Height="80"
             Content="{iconPacks:PackIconModern Delete}"
-            Margin="135,891,186,50"
+            Margin="40,891,281,50"
             Style="{DynamicResource MetroCircleButtonStyle}"
             Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Command="{Binding MainWindowViewModel.Windows.DeleteMainTabItemCommand}"
@@ -50,7 +50,7 @@
             x:Name="EditButton"
         	Height="80"
         	Content="{iconPacks:PackIconModern Edit}"
-        	Margin="265,891,56,50"
+        	Margin="275,891,46,50"
         	Style="{DynamicResource MetroCircleButtonStyle}"
             Visibility="{Binding MainWindowViewModel.NotLoading, Converter={StaticResource BoolToHiddenConverter}}"
             Command="{Binding MainWindowViewModel.Windows.EditMainTabItemCommand}"
@@ -230,7 +230,7 @@
                     <Label x:Name="DietaryLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.DietaryReqsString}" />
                     <Separator Height="30" Background="Transparent" />
                     <Grid>
-                        <CheckBox x:Name="CarCheckBox" Content="CarHire" HorizontalAlignment="Left" Width="100" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsCarHireSelected, Mode=OneWay}"/>
+                        <CheckBox x:Name="CarCheckBox" Content="CarHire" Height="30" Width="100" Margin="10,0,0,0" HorizontalAlignment="Left" IsEnabled="False" IsChecked="{Binding MainWindowViewModel.BookingViewModel.IsCarHireSelected, Mode=OneWay}"/>
                     </Grid>
                     <Label x:Name="CarHireStartLabel" FontSize="15" Height="40" Content="{Binding MainWindowViewModel.BookingViewModel.HireStartString}" />
                     <Label x:Name="CarHireEndLabel" FontSize="15" Height="30" Content="{Binding MainWindowViewModel.BookingViewModel.HireEndString}" />
@@ -259,5 +259,17 @@
                 </DataGrid>
             </TabItem>
         </TabControl>
+        <Button
+            x:Name="OpenInvoiceButton"
+            Grid.Column="0"
+            Height="80"
+            ToolTip="Open Invoice"
+            Content="{iconPacks:PackIconModern Money}"
+            Margin="155,891,166,50"
+            Style="{DynamicResource MetroCircleButtonStyle}"
+            Visibility="{Binding MainWindowViewModel.DisplaySidePanel, Converter={StaticResource BoolToHiddenConverter}}"
+            Command="{Binding MainWindowViewModel.Windows.OpenInvoiceWindowCommand}"
+            CommandParameter="{Binding MainWindowViewModel}"
+            />
     </Grid>
 </Controls:MetroWindow>

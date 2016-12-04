@@ -10,7 +10,7 @@ namespace CourseworkTwoMetro.Models
     /// Simple customer model object
     /// </summary>
     [Serializable]
-    public class Customer : Person, ICloneable
+    public class Customer : Person
     {
        
         public int ReferenceNumber { get; set; }
@@ -30,12 +30,5 @@ namespace CourseworkTwoMetro.Models
         {
             return ValidationUtilities.ValidateNonEmpty("Address", this.Address);
         }
-
-        // implementation of the cloning interface
-        public object Clone()
-        {
-            return CloneUtils.DeepClone(this);
-        }
-
     }
 }
