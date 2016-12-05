@@ -34,7 +34,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Width="200"
-                Command="{Binding CloseWindowCommand}"
+                Command="{Binding Commands.CloseWindowCommand}"
                 CommandParameter="{Binding ElementName=InvoiceWin}"
                 Margin="305,734,287,0" 
                 />
