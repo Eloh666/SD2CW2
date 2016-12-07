@@ -26599,7 +26599,7 @@
     <packageHasNamedElement>
       <class
         Id="8303a622-52a0-41b9-b126-00509b97e73f"
-        name="Booking"
+        name="Boooking"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">

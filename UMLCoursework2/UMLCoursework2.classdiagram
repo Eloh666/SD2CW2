@@ -20095,7 +20095,7 @@
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
-      <class Id="f7090d10-a4a7-46ec-ae98-a28090260559" name="Booking" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="f7090d10-a4a7-46ec-ae98-a28090260559" name="Boooking" isAbstract="false" isLeaf="false" isActiveClass="false">
         <referencesInternal>
           <reference Id="b2f46fd2-2f81-4f46-b9a6-a112f3fcdf61" handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FEloh%2FDesktop%2FEzUML%2FCourseworkTwoMetro%2Fbin%2FDebug%2FCourseworkTwoMetro.exe Namespace%3DCourseworkTwoMetro.Models Type%3DBooking" tag="ViewCode">
             <elementDefinition Id="0590079e-b8f3-4cdd-97a8-4b619afc964e" />
